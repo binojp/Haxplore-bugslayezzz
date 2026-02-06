@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import {
   Briefcase, CheckCircle, Clock, Eye, MapPin, Calendar, AlertCircle, XCircle, ShieldCheck, Loader, Trash2, Shield, Activity, Filter
 } from "lucide-react";
@@ -68,60 +69,64 @@ export default function WorkerDash() {
     const token = localStorage.getItem("token");
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/worker/reports/${reportId}/verify`, {}, { headers: { Authorization: `Bearer ${token}` } });
-      alert("Verified!");
+      toast.success("Verified!");
       fetchData();
-    } catch (err) { alert("Failed to verify"); }
+    } catch (err) { toast.error("Failed to verify"); }
   };
 
   const handleUpdateStatus = async (reportId, status) => {
     const token = localStorage.getItem("token");
     try {
       await axios.put(`${import.meta.env.VITE_API_URL}/api/worker/reports/${reportId}/status`, { status }, { headers: { Authorization: `Bearer ${token}` } });
+      toast.success("Status updated successfully!");
       fetchData();
-    } catch (err) { alert("Failed to update status"); }
+    } catch (err) { toast.error("Failed to update status"); }
   };
 
   const handleAssignToMe = async (reportId) => {
     const token = localStorage.getItem("token");
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/worker/reports/${reportId}/assign`, {}, { headers: { Authorization: `Bearer ${token}` } });
+      toast.success("Report assigned to you!");
       fetchData();
-    } catch (err) { alert("Failed to assign"); }
+    } catch (err) { toast.error("Failed to assign"); }
   };
 
   const handleAssignCollectionToMe = async (collectionId) => {
     const token = localStorage.getItem("token");
     try {
       await axios.put(`${import.meta.env.VITE_API_URL}/api/collections/${collectionId}`, { assignedWorker: "self", status: "Assigned" }, { headers: { Authorization: `Bearer ${token}` } });
+      toast.success("Collection assigned to you!");
       fetchData();
-    } catch (err) { alert("Failed to assign collection"); }
+    } catch (err) { toast.error("Failed to assign collection"); }
   };
 
   const handleUpdateCollectionStatus = async (collectionId, status) => {
     const token = localStorage.getItem("token");
     try {
       await axios.put(`${import.meta.env.VITE_API_URL}/api/collections/${collectionId}`, { status }, { headers: { Authorization: `Bearer ${token}` } });
+      toast.success("Collection status updated!");
       fetchData();
-    } catch (err) { alert("Failed to update collection status"); }
+    } catch (err) { toast.error("Failed to update collection status"); }
   };
 
-  if (loading) return <div className="min-h-screen bg-[#0f172a] flex items-center justify-center"><Loader className="animate-spin text-emerald-400" size={40} /></div>;
+  if (loading) return <div className="min-h-screen theme-bg flex items-center justify-center"><Loader className="animate-spin text-emerald-400" size={40} /></div>;
 
   const displayReports = filter === "assigned" ? assignedReports : reports;
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-12">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-12">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Header */}
         <div className="flex items-center justify-between animate-fade-in-down">
           <div>
             <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Worker Console</h1>
-            <p className="text-gray-400 text-sm">Manage assignments & collections</p>
+            <p className="theme-text-muted text-sm">Manage assignments & collections</p>
           </div>
-          <div className="glass-panel px-4 py-2 rounded-full flex items-center gap-2 border border-white/10">
+          <div className="glass-panel px-4 py-2 rounded-full flex items-center gap-2 theme-border">
             <ShieldCheck className="text-emerald-400" size={16} />
-            <span className="text-xs font-bold text-gray-300">AUTHORIZED PERSONNEL</span>
+            <span className="text-xs font-bold theme-text-secondary">AUTHORIZED PERSONNEL</span>
           </div>
         </div>
 
@@ -187,7 +192,7 @@ export default function WorkerDash() {
                         <select 
                           value={report.status} 
                           onChange={(e) => handleUpdateStatus(report._id, e.target.value)}
-                          className="bg-black/30 text-xs text-white p-1 rounded border border-white/10"
+                          className="theme-glass-overlay text-xs theme-text p-1 rounded theme-border"
                         >
                            <option value="Pending">Pending</option>
                            <option value="Review">Review</option>

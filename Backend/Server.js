@@ -13,6 +13,7 @@ const collectionRoutes = require("./routes/collections");
 const workerRoutes = require("./routes/worker");
 const binRoutes = require("./routes/bins");
 const truckRoutes = require("./routes/truckRoutes");
+const educationRoutes = require("./routes/education");
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use("/api/collections", collectionRoutes);
 app.use("/api/worker", workerRoutes);
 app.use("/api/bins", binRoutes);
 app.use("/api", truckRoutes);
+app.use("/api/education", educationRoutes);
 
 const PORT = process.env.PORT || 5000;
 

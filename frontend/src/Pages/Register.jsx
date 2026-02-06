@@ -64,7 +64,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white flex items-center justify-center p-4 pt-32 pb-20 relative overflow-hidden">
+    <div className="min-h-screen theme-bg theme-text flex items-center justify-center p-4 pt-32 pb-20 relative overflow-hidden">
       {/* Background Gradients */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px] animate-pulse" />
@@ -74,18 +74,18 @@ export default function RegisterForm() {
 
       <div className="w-full max-w-lg relative z-10">
         <div className="text-center mb-10 animate-fade-in-down">
-          <div className="inline-flex p-4 rounded-3xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 shadow-2xl backdrop-blur-md mb-6 border border-white/10 group-hover:scale-110 transition-transform duration-500">
+          <div className="inline-flex p-4 rounded-3xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 shadow-2xl backdrop-blur-md mb-6 theme-border group-hover:scale-110 transition-transform duration-500">
             <div className="p-3 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 shadow-lg shadow-emerald-500/20">
               <Leaf className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h2 className="text-4xl font-black tracking-tight text-white mb-3">
+          <h2 className="text-4xl font-black tracking-tight theme-text mb-3">
             Join the <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Revolution</span>
           </h2>
-          <p className="text-gray-400 font-medium tracking-wide">Create your account and start your journey</p>
+          <p className="theme-text-muted font-medium tracking-wide">Create your account and start your journey</p>
         </div>
 
-        <div className="glass-panel p-10 rounded-[2.5rem] border border-white/10 shadow-2xl backdrop-blur-2xl animate-fade-in-up delay-100 relative overflow-hidden">
+        <div className="glass-panel p-10 rounded-[2.5rem] theme-border shadow-2xl backdrop-blur-2xl animate-fade-in-up delay-100 relative overflow-hidden">
           {/* Subtle light streak */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
           
@@ -94,14 +94,14 @@ export default function RegisterForm() {
               <div className="space-y-2.5">
                 <label className="text-[10px] font-black text-gray-444 uppercase tracking-[0.2em] ml-1 opacity-70">Full Name</label>
                 <div className="relative group">
-                  <User className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-emerald-400 transition-colors" size={18} />
+                  <User className="absolute left-5 top-1/2 -translate-y-1/2 theme-gray-muted group-focus-within:text-emerald-400 transition-colors" size={18} />
                   <input
                     type="text"
                     name="name"
                     placeholder="John Doe"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 pl-13 pr-5 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition-all font-medium text-sm"
+                    className="w-full theme-glass-overlay theme-border rounded-2xl py-3.5 pl-13 pr-5 theme-text placeholder-gray-600 dark:placeholder-gray-600 light:placeholder-gray-400 focus:outline-none focus:border-emerald-500/50 focus:theme-glass-overlay-hover transition-all font-medium text-sm"
                   />
                 </div>
                 {errors.name && (
@@ -119,7 +119,7 @@ export default function RegisterForm() {
                     placeholder="name@example.com"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 pl-13 pr-5 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition-all font-medium text-sm"
+                    className="w-full theme-glass-overlay theme-border rounded-2xl py-3.5 pl-13 pr-5 theme-text placeholder-gray-600 dark:placeholder-gray-600 light:placeholder-gray-400 focus:outline-none focus:border-emerald-500/50 focus:theme-glass-overlay-hover transition-all font-medium text-sm"
                   />
                 </div>
                 {errors.email && (
@@ -139,7 +139,7 @@ export default function RegisterForm() {
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 pl-13 pr-5 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition-all font-medium text-sm"
+                    className="w-full theme-glass-overlay theme-border rounded-2xl py-3.5 pl-13 pr-5 theme-text placeholder-gray-600 dark:placeholder-gray-600 light:placeholder-gray-400 focus:outline-none focus:border-emerald-500/50 focus:theme-glass-overlay-hover transition-all font-medium text-sm"
                   />
                 </div>
                 {errors.password && (
@@ -157,7 +157,7 @@ export default function RegisterForm() {
                     placeholder="••••••••"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 pl-13 pr-5 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition-all font-medium text-sm"
+                    className="w-full theme-glass-overlay theme-border rounded-2xl py-3.5 pl-13 pr-5 theme-text placeholder-gray-600 dark:placeholder-gray-600 light:placeholder-gray-400 focus:outline-none focus:border-emerald-500/50 focus:theme-glass-overlay-hover transition-all font-medium text-sm"
                   />
                 </div>
                 {errors.confirmPassword && (
@@ -184,12 +184,12 @@ export default function RegisterForm() {
           </form>
 
           <div className="flex items-center gap-4 my-8">
-            <div className="h-[1px] flex-1 bg-white/5" />
-            <span className="text-[10px] font-black text-gray-600 uppercase tracking-widest">or</span>
-            <div className="h-[1px] flex-1 bg-white/5" />
+            <div className="h-[1px] flex-1 theme-glass-overlay" />
+            <span className="text-[10px] font-black theme-gray-muted uppercase tracking-widest">or</span>
+            <div className="h-[1px] flex-1 theme-glass-overlay" />
           </div>
 
-          <p className="text-center text-sm text-gray-500 font-medium">
+          <p className="text-center text-sm theme-gray-muted font-medium">
             Already have an account?{" "}
             <Link to="/login" className="text-emerald-400 hover:text-emerald-300 font-black hover:underline underline-offset-8 transition-all">
               Sign in here

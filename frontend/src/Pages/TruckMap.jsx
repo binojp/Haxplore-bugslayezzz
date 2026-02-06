@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import toast from "react-hot-toast";
+import { MapContainer, Marker, Popup, useMap } from "react-leaflet";
+import ThemeAwareTileLayer from "../components/ThemeAwareTileLayer";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
@@ -162,11 +164,11 @@ export default function TruckMap() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
       fetchData();
     } catch (err) {
       console.error("Error creating routes:", err);
-      alert(err.response?.data?.message || "Failed to create routes");
+      toast.error(err.response?.data?.message || "Failed to create routes");
     } finally {
       setCreating(false);
     }
@@ -184,7 +186,7 @@ export default function TruckMap() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+      <div className="min-h-screen theme-bg flex items-center justify-center">
         <LoaderCircle className="animate-spin text-emerald-400" size={48} />
       </div>
     );
@@ -194,44 +196,43 @@ export default function TruckMap() {
   const center = bins.length > 0 ? [bins[0].latitude, bins[0].longitude] : [28.6139, 77.209];
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-24">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-24">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-black text-emerald-400 mb-2">Truck Route Management</h1>
-            <p className="text-gray-400 text-sm">
+            <h1 className="text-3xl font-black text-emerald-400 mb-2">Truck Route</h1>
+            <p className="theme-text-muted text-sm">
               {fullBins.length} bins at ≥95% capacity • {routes.filter(r => r.status === "Pending").length} pending routes
             </p>
           </div>
           <div className="flex gap-3">
             <button
               onClick={fetchData}
-              className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white text-sm font-bold flex items-center gap-2 transition-all"
+              className="px-4 py-2 theme-glass-overlay hover:theme-glass-overlay-hover theme-border rounded-xl theme-text text-sm font-bold flex items-center gap-2 transition-all"
             >
-              <RefreshCw size={16} /> Refresh
+              <RefreshCw size={18} />
             </button>
             <button
               onClick={createRoutes}
               disabled={creating || fullBins.length === 0}
               className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-all"
             >
-              {creating ? <LoaderCircle className="animate-spin" size={16} /> : <Plus size={16} />}
-              Create Routes
+              {creating ? <LoaderCircle className="animate-spin" size={18} /> : <Plus size={16} />}
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Map */}
-          <div className="lg:col-span-2 glass-panel rounded-3xl overflow-hidden h-[600px]">
+          <div className="lg:col-span-2 glass-panel rounded-2xl sm:rounded-3xl overflow-hidden h-[400px] sm:h-[500px] lg:h-[600px]">
             <MapContainer
               center={center}
               zoom={12}
               style={{ height: "100%", width: "100%" }}
               className="z-0"
             >
-              <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
+              <ThemeAwareTileLayer />
 
               {/* Render all bins */}
               {bins.map((bin) => (
@@ -241,13 +242,13 @@ export default function TruckMap() {
                   icon={createBinIcon(bin.level)}
                 >
                   <Popup>
-                    <div className="text-gray-900">
-                      <p className="font-bold">{bin.name}</p>
-                      <p className="text-xs">{bin.placeName}</p>
-                      <p className="text-xs mt-1">
-                        Level: <span className="font-bold">{bin.level}%</span>
+                    <div className="theme-text">
+                      <p className="font-bold text-sm">{bin.name}</p>
+                      <p className="text-xs theme-text-muted">{bin.placeName}</p>
+                      <p className="text-xs mt-1 theme-text-muted">
+                        Level: <span className="font-bold theme-text">{bin.level}%</span>
                       </p>
-                      <p className="text-xs">Type: {bin.wasteType}</p>
+                      <p className="text-xs theme-text-muted">Type: {bin.wasteType}</p>
                     </div>
                   </Popup>
                 </Marker>
@@ -279,46 +280,46 @@ export default function TruckMap() {
           </div>
 
           {/* Routes List */}
-          <div className="glass-panel p-6 rounded-3xl h-[600px] overflow-y-auto">
-            <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-              <Truck className="text-emerald-400" size={20} /> Active Routes
+          <div className="glass-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl h-[400px] sm:h-[500px] lg:h-[600px] overflow-y-auto">
+            <h2 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 flex items-center gap-2">
+              <Truck className="text-emerald-400 sm:w-5 sm:h-5" size={18}/> Active Routes
             </h2>
 
             {routes.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-gray-500 text-sm">No routes created yet</p>
-                <p className="text-gray-600 text-xs mt-2">
+              <div className="text-center py-8 sm:py-12">
+                <p className="theme-text-muted text-xs sm:text-sm">No routes created yet</p>
+                <p className="theme-text-muted text-[10px] sm:text-xs mt-2">
                   {fullBins.length > 0
                     ? "Click 'Create Routes' to optimize collection"
                     : "No bins at ≥95% capacity"}
                 </p>
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {routes.map((route) => (
                   <div
                     key={route._id}
                     onClick={() => setSelectedRoute(route)}
-                    className={`p-4 bg-white/5 border rounded-2xl cursor-pointer transition-all hover:bg-white/10 ${
-                      selectedRoute?._id === route._id ? "border-emerald-500" : "border-white/5"
+                    className={`p-3 sm:p-4 theme-glass-overlay theme-border rounded-xl sm:rounded-2xl cursor-pointer transition-all hover:theme-glass-overlay-hover ${
+                      selectedRoute?._id === route._id ? "border-emerald-500" : ""
                     }`}
                   >
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex items-center gap-2">
-                        <User size={14} className="text-emerald-400" />
-                        <span className="text-sm font-bold">{route.assignedWorker?.name || "Unassigned"}</span>
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-start gap-2 mb-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <User size={12} className="sm:w-4 sm:h-4 text-emerald-400 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm font-bold theme-text truncate">{route.assignedWorker?.name || "Unassigned"}</span>
                       </div>
                       <span className={`px-2 py-1 text-[10px] font-bold uppercase rounded-full border ${getStatusColor(route.status)}`}>
                         {route.status}
                       </span>
                     </div>
 
-                    <div className="text-xs text-gray-400 space-y-1">
-                      <p>
-                        <MapPin size={12} className="inline mr-1" />
+                    <div className="text-[10px] sm:text-xs theme-text-muted space-y-1">
+                      <p className="flex items-center gap-1">
+                        <MapPin size={10} className="sm:w-3 sm:h-3" />
                         {route.bins?.length || 0} stops • {route.totalDistance?.toFixed(1) || 0} km
                       </p>
-                      <p className="text-[10px] text-gray-600">
+                      <p className="text-[10px] theme-text-muted">
                         Created: {new Date(route.createdAt).toLocaleString()}
                       </p>
                     </div>

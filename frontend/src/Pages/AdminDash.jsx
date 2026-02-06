@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import {
   MapPin, AlertTriangle, Map as MapIcon, Thermometer, Trash2, Clock, CheckCircle,
   Eye, Users, DollarSign, Crown, Medal, Trophy, Star, ChevronRight, Plus, X,
@@ -187,11 +188,11 @@ export default function AdminDash() {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert("Bin added successfully!");
+      toast.success("Bin added successfully!");
       setShowAddBin(false);
       setBinForm({ name: "", placeName: "", latitude: "", longitude: "", level: 0, capacity: 100, wasteType: "battery" });
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to add bin");
+      toast.error(err.response?.data?.message || "Failed to add bin");
     }
   };
 
@@ -205,11 +206,11 @@ export default function AdminDash() {
         workerForm,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert("Worker added successfully!");
+      toast.success("Worker added successfully!");
       setShowAddWorker(false);
       setWorkerForm({ name: "", email: "", password: "", role: "worker" });
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to add worker");
+      toast.error(err.response?.data?.message || "Failed to add worker");
     }
   };
 
@@ -224,7 +225,7 @@ export default function AdminDash() {
           });
           setLocationMethod("current");
         },
-        (error) => alert("Failed to get location")
+        (error) => toast.error("Failed to get location")
       );
     }
   };
@@ -237,7 +238,7 @@ export default function AdminDash() {
   };
 
   if (loading) return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+    <div className="min-h-screen theme-bg flex items-center justify-center">
       <div className="text-center">
         <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"/>
         <p className="text-emerald-400 font-bold uppercase tracking-widest">Loading Dashboard...</p>
@@ -246,7 +247,7 @@ export default function AdminDash() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-12">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-12">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Header */}

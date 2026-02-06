@@ -5,7 +5,8 @@ import {
   Navigation, MapPin, ChevronRight, List, Map as MapIcon, 
   Clock, CheckCircle, Info, ArrowLeft, Play, X
 } from "lucide-react";
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import { MapContainer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import ThemeAwareTileLayer from "../components/ThemeAwareTileLayer";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
@@ -229,19 +230,19 @@ const BinsMap = ({ isEmbedded = false }) => {
       { id: "laptop", name: "Laptops", icon: Laptop, color: "text-indigo-400", bg: "bg-indigo-400/10" },
       { id: "charger", name: "Chargers", icon: Zap, color: "text-emerald-400", bg: "bg-emerald-400/10" },
       { id: "cable", name: "Cables", icon: Cpu, color: "text-purple-400", bg: "bg-purple-400/10" },
-      { id: "All", name: "All Types", icon: Trash2, color: "text-white", bg: "bg-white/5" }
+      { id: "All", name: "All Types", icon: Trash2, color: "theme-text", bg: "theme-glass-overlay" }
     ];
 
     return (
-      <div className="min-h-screen bg-[#0f172a] flex flex-col items-center justify-center p-6 pt-24">
+      <div className="min-h-screen theme-bg flex flex-col items-center justify-center p-6 pt-24">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px]" />
           <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px]" />
         </div>
 
         <div className="relative z-10 text-center mb-12 animate-fade-in-down">
-          <h1 className="text-4xl font-black text-white mb-4">What are you recycling today?</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Select a category to find compatible bins</p>
+          <h1 className="text-4xl font-black theme-text mb-4">What are you recycling today?</h1>
+          <p className="theme-text-muted font-bold uppercase tracking-widest text-xs">Select a category to find compatible bins</p>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-4xl relative z-10">
@@ -255,7 +256,7 @@ const BinsMap = ({ isEmbedded = false }) => {
               <div className={`p-5 rounded-2xl ${type.bg} transition-transform group-hover:scale-110`}>
                 <type.icon className={type.color} size={32} />
               </div>
-              <span className="font-black text-white">{type.name}</span>
+              <span className="font-black theme-text">{type.name}</span>
             </button>
           ))}
         </div>
@@ -264,7 +265,7 @@ const BinsMap = ({ isEmbedded = false }) => {
   }
 
   return (
-    <div className={`${isEmbedded ? "relative w-full h-full" : "fixed inset-0 h-[100dvh] bg-[#0f172a] text-white flex flex-col md:flex-row pt-16"}`}>
+    <div className={`${isEmbedded ? "relative w-full h-full" : "fixed inset-0 h-[100dvh] theme-bg theme-text flex flex-col md:flex-row pt-16"}`}>
       
       {/* Sidebar - Desktop / Drawer - Mobile */}
       <div className={`z-20 glass-panel md:w-[400px] flex flex-col h-full border-r border-white/10 ${isNavigating ? "hidden md:flex" : ""}`}>
@@ -274,11 +275,11 @@ const BinsMap = ({ isEmbedded = false }) => {
               <Navigation className="text-emerald-400" size={20} />
               Nearest Bins
             </h2>
-            <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Compatible with: {selectedType}</p>
+            <p className="text-[10px] theme-text-muted font-black uppercase tracking-widest">Compatible with: {selectedType}</p>
           </div>
           <button 
             onClick={() => {setSelectedType(null); setSelectedBin(null); setIsNavigating(false);}}
-            className="p-2 bg-white/5 hover:bg-white/10 rounded-xl text-gray-400 transition-all"
+            className="p-2 theme-glass-overlay hover:theme-glass-overlay-hover rounded-xl theme-gray transition-all"
           >
             <ArrowLeft size={18} />
           </button>
@@ -348,10 +349,7 @@ const BinsMap = ({ isEmbedded = false }) => {
           style={{ height: "100%", width: "100%", zIndex: 1 }}
           zoomControl={false}
         >
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-          />
+          <ThemeAwareTileLayer />
           <MapResizer />
           
           {/* User Marker */}
@@ -373,7 +371,7 @@ const BinsMap = ({ isEmbedded = false }) => {
             >
               <Popup className="glass-popup">
                 <div className="p-1">
-                  <h4 className="font-bold text-white text-xs mb-1">{bin.name}</h4>
+                  <h4 className="font-bold theme-text text-xs mb-1">{bin.name}</h4>
                   <p className="text-[10px] text-emerald-400 font-black uppercase">{bin.level}% Full</p>
                 </div>
               </Popup>
@@ -393,7 +391,7 @@ const BinsMap = ({ isEmbedded = false }) => {
           <div className="absolute top-4 right-4 z-[1000] flex flex-col gap-2">
             <button 
               onClick={() => setUserLocation(null)} // Trigger re-center (simplified)
-              className="p-3 glass-panel rounded-2xl text-white hover:bg-white/10 transition-all shadow-xl"
+              className="p-3 glass-panel rounded-2xl theme-text hover:theme-glass-overlay-hover transition-all shadow-xl"
             >
               <MapPin size={20} />
             </button>

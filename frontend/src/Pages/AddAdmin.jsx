@@ -34,7 +34,7 @@ function AddAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white flex items-center justify-center p-4">
+    <div className="min-h-screen theme-bg theme-text flex items-center justify-center p-4">
       {/* Background Gradients */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
       

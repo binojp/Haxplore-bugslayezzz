@@ -28,6 +28,17 @@ const userSchema = new mongoose.Schema({
       redeemedAt: { type: Date, default: Date.now },
     },
   ],
+  educationProgress: {
+    completedModules: [{ type: mongoose.Schema.Types.ObjectId, ref: "EducationalContent" }],
+    quizzesTaken: [{
+      quizId: { type: mongoose.Schema.Types.ObjectId, ref: "Quiz" },
+      score: { type: Number },
+      pointsEarned: { type: Number },
+      completedAt: { type: Date, default: Date.now }
+    }],
+    learningStreak: { type: Number, default: 0 },
+    lastActivityDate: { type: Date }
+  },
   createdAt: { type: Date, default: Date.now },
 });
 

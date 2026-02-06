@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import {
   MapContainer,
-  TileLayer,
   Marker,
   useMapEvents,
 } from "react-leaflet";
+import ThemeAwareTileLayer from "../components/ThemeAwareTileLayer";
 import {
   Trash2,
   Camera,
@@ -102,7 +103,7 @@ const FileUploader = ({ files, maxFiles, mode, onFilesSelected, onRemove, analys
     if (files.length + selected.length <= maxFiles) {
       onFilesSelected(selected);
     } else {
-      alert(`Max ${maxFiles} file(s) allowed.`);
+      toast.error(`Max ${maxFiles} file(s) allowed.`);
     }
   };
 
@@ -174,7 +175,7 @@ const LocationPicker = ({ setLocation, setLocationName, setLocationError }) => {
   return (
     <div className="h-[200px] w-full rounded-2xl overflow-hidden border border-white/10 shadow-inner">
       <MapContainer center={[10.5276, 76.2144]} zoom={13} style={{ height: "100%", width: "100%" }}>
-        <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
+        <ThemeAwareTileLayer />
         <MapClickHandler />
       </MapContainer>
     </div>
@@ -382,15 +383,16 @@ export default function UploadPage() {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/reports`, data, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
       });
-      alert("Report Submitted Successfully!");
+      toast.success("Report Submitted Successfully!");
       navigate("/user/dashboard");
     } catch (err) {
+      toast.error(err.response?.data?.message || "Submission failed. Please try again.");
       setErrors({ server: "Submission failed. Please try again." });
     }
   };
 
   return (
-    <div className="min-h-screen pt-20 pb-10 px-4 flex justify-center">
+    <div className="min-h-screen theme-bg theme-text pt-20 pb-10 px-4 flex justify-center">
       <div className="w-full max-w-lg">
         
         {/* Header */}
@@ -398,7 +400,7 @@ export default function UploadPage() {
           <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2">
             RapidResponse
           </h1>
-          <p className="text-gray-400 text-sm">Smart AI-Powered Waste Management</p>
+          <p className="theme-text-muted text-sm">Smart AI-Powered Waste Management</p>
         </div>
 
         {/* Toggle */}
@@ -406,7 +408,7 @@ export default function UploadPage() {
           <button
             onClick={() => setMode("report")}
             className={`flex-1 py-3 rounded-lg flex items-center justify-center gap-2 font-bold transition-all ${
-              mode === "report" ? "bg-emerald-600/80 text-white shadow-lg" : "text-gray-400 hover:text-white"
+              mode === "report" ? "bg-emerald-600/80 text-white shadow-lg" : "theme-text-muted hover:theme-text"
             }`}
           >
             <Smartphone size={18} /> Smart Scan
@@ -414,7 +416,7 @@ export default function UploadPage() {
           <button
             onClick={() => setMode("cleanup")}
             className={`flex-1 py-3 rounded-lg flex items-center justify-center gap-2 font-bold transition-all ${
-              mode === "cleanup" ? "bg-blue-600/80 text-white shadow-lg" : "text-gray-400 hover:text-white"
+              mode === "cleanup" ? "bg-blue-600/80 text-white shadow-lg" : "theme-text-muted hover:theme-text"
             }`}
           >
             <Camera size={18} /> Cleanup
@@ -422,7 +424,7 @@ export default function UploadPage() {
         </div>
 
         {/* Main Card */}
-        <div className="glass-panel p-6 rounded-3xl border border-white/5 relative overflow-hidden">
+        <div className="glass-panel p-6 rounded-3xl theme-border relative overflow-hidden">
           {/* Decorative Glow */}
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
           
@@ -446,15 +448,15 @@ export default function UploadPage() {
             )}
 
             <div className="space-y-3">
-              <label className="text-sm font-semibold text-gray-400 ml-1">Details</label>
+              <label className="text-sm font-semibold theme-text-muted ml-1">Details</label>
               <input
-                className="glass-input w-full p-4 rounded-xl"
+                className="glass-input w-full p-4 rounded-xl theme-text placeholder:theme-text-muted"
                 placeholder={mode === "report" ? "e.g. Broken Laptop" : "Cleanup Location Name"}
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               />
               <textarea
-                className="glass-input w-full p-4 rounded-xl h-24 resize-none"
+                className="glass-input w-full p-4 rounded-xl h-24 resize-none theme-text placeholder:theme-text-muted"
                 placeholder="Additional details..."
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -464,9 +466,9 @@ export default function UploadPage() {
             {/* Waste Type Selector - Always visible for manual override */}
             {mode === "report" && (
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-400 ml-1">E-Waste Type</label>
+                <label className="text-sm font-semibold theme-text-muted ml-1">E-Waste Type</label>
                 <select 
-                  className="glass-input w-full p-4 rounded-xl bg-slate-800 border border-white/10 text-white focus:border-emerald-500 focus:outline-none"
+                  className="glass-input w-full p-4 rounded-xl theme-text focus:border-emerald-500 focus:outline-none"
                   value={formData.wasteType}
                   onChange={(e) => setFormData({ ...formData, wasteType: e.target.value })}
                 >
@@ -484,9 +486,9 @@ export default function UploadPage() {
             {/* Severity Selector */}
             {mode === "report" && (
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-400 ml-1">Severity</label>
+                <label className="text-sm font-semibold theme-text-muted ml-1">Severity</label>
                 <select 
-                  className="glass-input w-full p-4 rounded-xl bg-slate-800 border border-white/10 text-white focus:border-emerald-500 focus:outline-none"
+                  className="glass-input w-full p-4 rounded-xl theme-text focus:border-emerald-500 focus:outline-none"
                   value={formData.severity}
                   onChange={(e) => setFormData({ ...formData, severity: e.target.value })}
                 >
@@ -503,7 +505,7 @@ export default function UploadPage() {
               className={`w-full flex items-center justify-center gap-2 p-4 rounded-xl font-bold transition-all ${
                 location 
                   ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/50" 
-                  : "bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10"
+                  : "theme-glass-overlay theme-text-secondary hover:theme-glass-overlay-hover theme-border"
               }`}
             >
               {isTracking ? <LoaderCircle className="animate-spin" /> : <MapPin size={20} />}

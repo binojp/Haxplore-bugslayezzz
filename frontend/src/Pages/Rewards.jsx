@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 import { Gift, ShoppingBag, Leaf, Award, Zap, LoaderCircle, CheckCircle, Clock, ShieldCheck } from "lucide-react";
 import "./index.css";
 
@@ -55,20 +56,20 @@ export default function RewardsPage() {
         redeemedRewards: res.data.redeemedRewards
       }));
 
-      alert("🎉 Reward redeemed successfully!");
+      toast.success("🎉 Reward redeemed successfully!");
     } catch (err) {
-      alert(err.response?.data?.message || "Redemption failed");
+      toast.error(err.response?.data?.message || "Redemption failed");
     }
   };
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0f172a]">
+    <div className="min-h-screen flex items-center justify-center theme-bg">
       <LoaderCircle className="animate-spin text-emerald-400" size={48} />
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-24 overflow-x-hidden">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-24 overflow-x-hidden">
       
       {/* Header */}
       <div className="max-w-4xl mx-auto mb-8 text-center animate-fade-in-up">
@@ -84,7 +85,7 @@ export default function RewardsPage() {
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Available Balance</p>
           <div className="flex items-center justify-center gap-2">
             <Zap className="text-yellow-400 fill-yellow-400" size={40} />
-            <span className="text-6xl md:text-7xl font-black text-white">{userData.pointsRemaining ?? 0}</span>
+            <span className="text-6xl md:text-7xl font-black theme-text">{userData.pointsRemaining ?? 0}</span>
           </div>
           <p className="text-emerald-400 font-bold mt-2">Green Credits</p>
         </div>
@@ -105,7 +106,7 @@ export default function RewardsPage() {
                   {reward.icon}
                 </div>
                 <div>
-                  <h3 className="font-bold text-white text-sm">{reward.title}</h3>
+                  <h3 className="font-bold theme-text text-sm">{reward.title}</h3>
                   <p className="text-xs text-gray-400 mb-1">{reward.description}</p>
                   <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-wide">{reward.points} GC</p>
                 </div>
@@ -116,7 +117,7 @@ export default function RewardsPage() {
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                   canAfford 
                   ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 active:scale-95" 
-                  : "bg-white/5 text-gray-500 cursor-not-allowed"
+                  : "theme-glass-overlay theme-text-muted cursor-not-allowed"
                 }`}
               >
                 REDEEM
@@ -128,7 +129,7 @@ export default function RewardsPage() {
 
       {/* HISTORY SECTION */}
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+        <h2 className="text-lg font-bold theme-text mb-6 flex items-center gap-2">
           <Clock className="text-emerald-400" size={20} /> History
         </h2>
         

@@ -1,6 +1,7 @@
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Menu, X, Leaf, Award, Map, User, LogOut } from "lucide-react";
+import { Menu, X, Leaf, Award, Map, User, LogOut, Sun, Moon, Brain } from "lucide-react";
+import { useTheme } from "./context/ThemeContext";
 import "./index.css";
 
 const getNavLinks = (userRole) => {
@@ -27,6 +28,7 @@ const getNavLinks = (userRole) => {
   return [
     ...baseLinks,
     { href: "/report", label: "Scan E-Waste", icon: Leaf },
+    { href: "/education", label: "Learn", icon: Brain },
     { href: "/rewards", label: "Rewards", icon: Award },
     { href: "/leaderboard", label: "Leaderboard", icon: Award },
     { href: "/profile", label: "Profile", icon: User },
@@ -55,6 +57,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
@@ -82,9 +85,13 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-300 ${
         scrolled || mobileOpen
-          ? "bg-[#0f172a]/80 backdrop-blur-md border-b border-white/10 shadow-lg"
+          ? "backdrop-blur-md border-b shadow-lg"
           : "bg-transparent border-transparent"
       }`}
+      style={scrolled || mobileOpen ? {
+        backgroundColor: theme === 'dark' ? 'rgba(15, 23, 42, 0.8)' : 'rgba(255, 255, 255, 0.9)',
+        borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+      } : {}}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
@@ -112,6 +119,13 @@ const Navbar = () => {
 
             {isLoggedIn && !isAuthPage ? (
               <>
+                <button
+                  onClick={toggleTheme}
+                  className="p-2.5 rounded-xl text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-all"
+                  aria-label="Toggle theme"
+                >
+                  {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                </button>
                 <NavLink
                   to={
                     userRole === "worker" 
@@ -133,6 +147,13 @@ const Navbar = () => {
               </>
             ) : (
               <>
+                <button
+                  onClick={toggleTheme}
+                  className="p-2.5 rounded-xl text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-all"
+                  aria-label="Toggle theme"
+                >
+                  {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                </button>
                 <NavLink
                   to="/login"
                   className={`text-gray-300 hover:text-white px-4 py-2 font-medium transition-colors ${
@@ -169,9 +190,13 @@ const Navbar = () => {
 
       {/* Mobile Nav */}
       <div
-        className={`md:hidden absolute top-20 left-0 right-0 bg-[#0f172a] border-b border-white/10 shadow-2xl transition-all duration-300 origin-top max-h-[calc(100vh-5rem)] overflow-y-auto ${
+        className={`md:hidden absolute top-20 left-0 right-0 border-b shadow-2xl transition-all duration-300 origin-top max-h-[calc(100vh-5rem)] overflow-y-auto ${
           mobileOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"
         }`}
+        style={{
+          backgroundColor: theme === 'dark' ? '#0f172a' : '#ffffff',
+          borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+        }}
       >
         <div className="px-4 pt-2 pb-6 space-y-2">
           {navLinks.map((link) => (
@@ -186,6 +211,13 @@ const Navbar = () => {
           
           {isLoggedIn ? (
             <div className="space-y-3">
+              <button
+                onClick={toggleTheme}
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-emerald-500/10 hover:text-emerald-400 font-bold"
+              >
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              </button>
               <NavLink
                 to={
                   userRole === "worker" 
@@ -207,21 +239,30 @@ const Navbar = () => {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-3">
-              <NavLink
-                to="/login"
-                onClick={() => setMobileOpen(false)}
-                className="col-span-1 text-center py-3 rounded-xl border border-white/10 text-white font-medium hover:bg-white/5"
+            <div className="space-y-3">
+              <button
+                onClick={toggleTheme}
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-emerald-500/10 hover:text-emerald-400 font-bold"
               >
-                Log In
-              </NavLink>
-              <NavLink
-                to="/register"
-                onClick={() => setMobileOpen(false)}
-                className="col-span-1 text-center py-3 rounded-xl bg-white text-emerald-900 font-bold"
-              >
-                Sign Up
-              </NavLink>
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              </button>
+              <div className="grid grid-cols-2 gap-3">
+                <NavLink
+                  to="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="col-span-1 text-center py-3 rounded-xl border border-white/10 text-white font-medium hover:bg-white/5"
+                >
+                  Log In
+                </NavLink>
+                <NavLink
+                  to="/register"
+                  onClick={() => setMobileOpen(false)}
+                  className="col-span-1 text-center py-3 rounded-xl bg-white text-emerald-900 font-bold"
+                >
+                  Sign Up
+                </NavLink>
+              </div>
             </div>
           )}
         </div>

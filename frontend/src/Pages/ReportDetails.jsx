@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 import {
   MapPin,
   Clock,
@@ -66,9 +67,9 @@ export default function ReportDetails() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setReport(response.data);
-      alert(`Status updated to ${status}`);
+      toast.success(`Status updated to ${status}`);
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to update status");
+      toast.error(err.response?.data?.message || "Failed to update status");
     }
   };
 
@@ -81,9 +82,9 @@ export default function ReportDetails() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setReport(response.data);
-      alert("Worker assigned successfully!");
+      toast.success("Worker assigned successfully!");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to assign worker");
+      toast.error(err.response?.data?.message || "Failed to assign worker");
     }
   };
 
@@ -94,7 +95,7 @@ export default function ReportDetails() {
   const handleReplySubmit = async (e) => {
     e.preventDefault();
     if (!files.length) {
-      alert("Please select at least one file");
+      toast.error("Please select at least one file");
       return;
     }
     const formData = new FormData();
@@ -116,9 +117,9 @@ export default function ReportDetails() {
       setReport(response.data);
       setFiles([]);
       e.target.reset(); // Reset form
-      alert("Reply images uploaded successfully!");
+      toast.success("Reply images uploaded successfully!");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to upload reply");
+      toast.error(err.response?.data?.message || "Failed to upload reply");
     }
   };
 
@@ -170,57 +171,57 @@ export default function ReportDetails() {
   };
 
   if (loading) return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+    <div className="min-h-screen theme-bg flex items-center justify-center">
       <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"/>
     </div>
   );
 
   if (error) return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center text-red-400 p-4">
+    <div className="min-h-screen theme-bg flex items-center justify-center text-red-400 p-4">
        <AlertCircle className="mr-2"/> {error}
     </div>
   );
 
   if (!report) return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center text-gray-400">
+    <div className="min-h-screen theme-bg flex items-center justify-center text-gray-400">
       Report not found
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-12">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-12">
       
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8 animate-fade-in-down">
-        <button
+          <button
           onClick={() => navigate("/admin/dashboard")}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-4 group"
+          className="flex items-center gap-2 theme-text-muted hover:theme-text transition-colors mb-4 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
         </button>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-           <div>
-              <div className="flex items-center gap-3 mb-2">
-                 <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">Incident Report #{report._id.slice(-6)}</p>
+           <div className="flex-1 min-w-0">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                 <p className="text-xs sm:text-sm font-bold theme-text-muted uppercase tracking-widest">Incident Report #{report._id.slice(-6)}</p>
                  <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-full border flex items-center gap-1 ${getPriorityColor(report.severity)}`}>
                     {report.severity} Priority
                  </span>
               </div>
-              <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 break-words">
                 {report.title}
               </h1>
            </div>
            
            {/* Quick Actions (Status) */}
-           <div className="glass-panel p-2 rounded-xl border border-white/10 flex gap-2">
+           <div className="glass-panel p-1.5 sm:p-2 rounded-xl theme-border flex flex-wrap gap-1 sm:gap-2 w-full lg:w-auto">
               {["Pending", "Review", "Resolved", "Rejected"].map((status) => (
                <button
                  key={status}
                  onClick={() => handleStatusUpdate(status)}
-                 className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all ${
+                 className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-bold uppercase transition-all flex-1 sm:flex-none min-w-[70px] ${
                    report.status === status
                      ? getStatusColor(status) + " shadow-lg"
-                     : "text-gray-500 hover:bg-white/5"
+                     : "theme-text-muted hover:theme-glass-overlay"
                  }`}
                >
                  {status}
@@ -236,50 +237,50 @@ export default function ReportDetails() {
          <div className="lg:col-span-2 space-y-8 animate-fade-in-up">
             
             {/* Details Card */}
-            <div className="glass-panel p-8 rounded-3xl border border-white/10 relative overflow-hidden">
+            <div className="glass-panel p-4 sm:p-6 lg:p-8 rounded-3xl theme-border relative overflow-hidden">
                <div className="absolute top-0 right-0 p-32 bg-emerald-500/5 blur-3xl rounded-full pointer-events-none" />
                
-               <h3 className="font-bold text-xl mb-6 flex items-center gap-2">
-                 <AlertCircle className="text-emerald-400" size={24}/> Incident Details
+               <h3 className="font-bold text-lg sm:text-xl mb-4 sm:mb-6 flex items-center gap-2">
+                 <AlertCircle className="text-emerald-400 w-5 h-5 sm:w-6 sm:h-6"/> Incident Details
                </h3>
                
-               <p className="text-gray-300 leading-relaxed text-lg mb-8">
+               <p className="theme-text-secondary leading-relaxed text-sm sm:text-base lg:text-lg mb-6 sm:mb-8">
                   {report.description}
                </p>
                
-               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                     <p className="text-xs text-gray-500 font-bold uppercase mb-1">Type</p>
-                     <p className="text-white font-bold text-lg">{report.type}</p>
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                  <div className="p-3 sm:p-4 theme-glass-overlay rounded-2xl theme-border">
+                     <p className="text-xs theme-text-muted font-bold uppercase mb-1">Type</p>
+                     <p className="theme-text font-bold text-base sm:text-lg">{report.type}</p>
                   </div>
-                  <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                     <p className="text-xs text-gray-500 font-bold uppercase mb-1">Waste Category</p>
-                     <p className="text-white font-bold text-lg">{report.wasteType || "Mixed"}</p>
+                  <div className="p-3 sm:p-4 theme-glass-overlay rounded-2xl theme-border">
+                     <p className="text-xs theme-text-muted font-bold uppercase mb-1">Waste Category</p>
+                     <p className="theme-text font-bold text-base sm:text-lg">{report.wasteType || "Mixed"}</p>
                   </div>
-                  <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                     <p className="text-xs text-gray-500 font-bold uppercase mb-1">Reported On</p>
-                     <p className="text-white font-bold flex items-center gap-2">
-                       <Calendar size={16} className="text-gray-400"/>
+                  <div className="p-3 sm:p-4 theme-glass-overlay rounded-2xl theme-border">
+                     <p className="text-xs theme-text-muted font-bold uppercase mb-1">Reported On</p>
+                     <p className="theme-text font-bold flex items-center gap-2 text-sm sm:text-base lg:text-lg">
+                       <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 theme-text-muted"/>
                        {new Date(report.createdAt).toLocaleDateString()}
                      </p>
                   </div>
-                  <div className="col-span-2 md:col-span-3 p-4 bg-white/5 rounded-2xl border border-white/5">
-                     <p className="text-xs text-gray-500 font-bold uppercase mb-1">Location</p>
-                     <p className="text-white font-bold flex items-center gap-2">
-                       <MapPin size={18} className="text-emerald-400"/>
-                       {report.location || `${report.latitude}, ${report.longitude}`}
+                  <div className="col-span-1 sm:col-span-2 lg:col-span-3 p-3 sm:p-4 theme-glass-overlay rounded-2xl theme-border">
+                     <p className="text-xs theme-text-muted font-bold uppercase mb-1">Location</p>
+                     <p className="theme-text font-bold flex items-center gap-2 text-sm sm:text-base lg:text-lg break-words">
+                       <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 shrink-0"/>
+                       <span className="break-words">{report.location || `${report.latitude}, ${report.longitude}`}</span>
                      </p>
                   </div>
                </div>
 
                {report.user && (
-                  <div className="mt-6 flex items-center gap-3 pt-6 border-t border-white/10">
-                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center font-bold text-white">
+                  <div className="mt-4 sm:mt-6 flex items-center gap-3 pt-4 sm:pt-6 border-t theme-border">
+                     <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center font-bold text-white text-sm sm:text-base flex-shrink-0">
                         {report.user.name?.charAt(0) || "U"}
                      </div>
-                     <div>
-                        <p className="text-xs text-gray-500 font-bold uppercase">Reported By</p>
-                        <p className="text-white font-bold">{report.user.name || report.user.email}</p>
+                     <div className="min-w-0">
+                        <p className="text-xs theme-text-muted font-bold uppercase">Reported By</p>
+                        <p className="theme-text font-bold text-sm sm:text-base truncate">{report.user.name || report.user.email}</p>
                      </div>
                   </div>
                )}
@@ -322,19 +323,19 @@ export default function ReportDetails() {
          <div className="space-y-8 animate-fade-in-up delay-100">
             
             {/* Assign Worker Card */}
-            <div className="glass-panel p-6 rounded-3xl border border-white/10 group hover:border-emerald-500/30 transition-all">
-               <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                 <Briefcase className="text-amber-400" size={20}/> Field Operations
+            <div className="glass-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl theme-border group hover:border-emerald-500/30 transition-all">
+               <h3 className="font-bold text-base sm:text-lg mb-3 sm:mb-4 flex items-center gap-2">
+                 <Briefcase className="text-amber-400 w-4 h-4 sm:w-5 sm:h-5"/> Field Operations
                </h3>
                
-               <div className="space-y-4">
+               <div className="space-y-3 sm:space-y-4">
                   <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block">Assign Worker</label>
+                    <label className="text-xs font-bold theme-text-muted uppercase ml-1 mb-1 block">Assign Worker</label>
                     <div className="relative">
                        <select
                          value={report.assignedWorker?._id || ""}
                          onChange={(e) => handleAssignWorker(e.target.value)}
-                         className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-emerald-500 focus:outline-none appearance-none"
+                         className="w-full theme-glass-overlay theme-border rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm theme-text focus:border-emerald-500 focus:outline-none appearance-none"
                        >
                          <option value="">Select Field Agent...</option>
                          {workers.map((worker) => (
@@ -343,22 +344,22 @@ export default function ReportDetails() {
                            </option>
                          ))}
                        </select>
-                       <User size={16} className="absolute right-4 top-3.5 text-gray-500 pointer-events-none" />
+                       <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 absolute right-3 sm:right-4 top-2.5 sm:top-3.5 theme-text-muted pointer-events-none" />
                     </div>
                   </div>
 
                   {report.assignedWorker ? (
-                    <div className="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20 flex items-center gap-3">
-                       <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold">
+                    <div className="p-3 sm:p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20 flex items-center gap-2 sm:gap-3">
+                       <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
                           {report.assignedWorker.name?.charAt(0) || "W"}
                        </div>
-                       <div>
+                       <div className="min-w-0">
                           <p className="text-xs text-emerald-400 font-bold uppercase">Currently Assigned</p>
-                          <p className="text-white font-bold text-sm">{report.assignedWorker.name || "Worker"}</p>
+                          <p className="theme-text font-bold text-xs sm:text-sm truncate">{report.assignedWorker.name || "Worker"}</p>
                        </div>
                     </div>
                   ) : (
-                     <div className="p-4 bg-orange-500/10 rounded-xl border border-orange-500/20 text-orange-400 text-xs font-bold text-center">
+                     <div className="p-3 sm:p-4 bg-orange-500/10 rounded-xl border border-orange-500/20 text-orange-400 text-[10px] sm:text-xs font-bold text-center">
                         ⚠️ No worker assigned yet
                      </div>
                   )}
@@ -366,19 +367,19 @@ export default function ReportDetails() {
             </div>
 
             {/* Updates & Replies */}
-            <div className="glass-panel p-6 rounded-3xl border border-white/10">
-               <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                 <MessageCircle className="text-pink-400" size={20}/> Status Updates
+            <div className="glass-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl theme-border">
+               <h3 className="font-bold text-base sm:text-lg mb-3 sm:mb-4 flex items-center gap-2">
+                 <MessageCircle className="text-pink-400 w-4 h-4 sm:w-5 sm:h-5"/> Status Updates
                </h3>
 
                {/* Upload Form */}
-               <form onSubmit={handleReplySubmit} className="mb-8 space-y-3 p-4 bg-white/5 rounded-2xl border border-white/5">
-                  <p className="text-xs font-bold text-gray-400 uppercase">Post Update</p>
-                  <div className="flex gap-2">
+               <form onSubmit={handleReplySubmit} className="mb-6 sm:mb-8 space-y-3 p-3 sm:p-4 theme-glass-overlay rounded-xl sm:rounded-2xl theme-border">
+                  <p className="text-xs font-bold theme-text-muted uppercase">Post Update</p>
+                  <div className="flex flex-col sm:flex-row gap-2">
                      <select
                         value={replyType}
                         onChange={(e) => setReplyType(e.target.value)}
-                        className="bg-slate-800 border border-white/10 rounded-lg px-2 text-xs text-white focus:outline-none"
+                        className="theme-glass-overlay theme-border rounded-lg px-2 py-2 text-xs theme-text focus:outline-none"
                      >
                         <option value="before">Before Fix</option>
                         <option value="after">After Fix</option>
@@ -391,7 +392,7 @@ export default function ReportDetails() {
                            onChange={handleFileChange}
                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         />
-                        <div className="w-full bg-slate-800 border border-white/10 rounded-lg py-2 px-3 text-xs text-gray-400 flex items-center justify-between">
+                        <div className="w-full theme-glass-overlay theme-border rounded-lg py-2 px-3 text-xs theme-text-muted flex items-center justify-between">
                            <span>{files.length} files selected</span>
                            <Upload size={12}/>
                         </div>
@@ -406,23 +407,23 @@ export default function ReportDetails() {
                </form>
 
                {/* Timeline */}
-               <div className="space-y-6 relative ml-3">
-                  <div className="absolute left-0 top-2 bottom-0 w-[2px] bg-white/10" />
+               <div className="space-y-4 sm:space-y-6 relative ml-2 sm:ml-3">
+                  <div className="absolute left-0 top-2 bottom-0 w-[2px] theme-border" />
                   
                   {report.replies?.length ? (
                     report.replies.map((reply, index) => (
-                      <div key={index} className="relative pl-6 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
-                         <div className={`absolute left-[-4px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-[#0f172a] ${reply.type === 'after' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
+                      <div key={index} className="relative pl-4 sm:pl-6 animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+                         <div className={`absolute left-[-4px] top-1.5 w-2.5 h-2.5 rounded-full border-2 theme-bg ${reply.type === 'after' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
                          
                          <div className="mb-2">
                             <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full inline-block mb-1 ${reply.type === 'after' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-blue-500/20 text-blue-400'}`}>
                                {reply.type} Work
                             </span>
-                            <p className="text-[10px] text-gray-500 flex items-center gap-1">
+                            <p className="text-[10px] theme-text-muted flex items-center gap-1">
                                {new Date(reply.uploadedAt).toLocaleString()}
                             </p>
-                            <p className="text-xs text-gray-300 mt-1">
-                               Uploaded by <span className="text-white font-bold">{reply.uploadedBy?.name || "Admin"}</span>
+                            <p className="text-xs theme-text-secondary mt-1">
+                               Uploaded by <span className="theme-text font-bold">{reply.uploadedBy?.name || "Admin"}</span>
                             </p>
                          </div>
                          
@@ -432,14 +433,14 @@ export default function ReportDetails() {
                                 key={idx}
                                 src={`${import.meta.env.VITE_API_URL}${url}`}
                                 alt="Update media"
-                                className="w-full h-20 object-cover rounded-lg border border-white/10 cursor-pointer hover:border-emerald-500/50 transition-colors"
+                                className="w-full h-16 sm:h-20 object-cover rounded-lg theme-border cursor-pointer hover:border-emerald-500/50 transition-colors"
                               />
                             ))}
                          </div>
                       </div>
                     ))
                   ) : (
-                    <div className="pl-6 text-gray-500 text-sm italic py-4">
+                    <div className="pl-4 sm:pl-6 theme-text-muted text-xs sm:text-sm italic py-4">
                        No updates posted yet.
                     </div>
                   )}

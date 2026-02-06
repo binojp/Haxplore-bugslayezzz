@@ -40,8 +40,8 @@ function Modal({ isOpen, onClose, children }) {
   return (
     <div className="fixed inset-0 z-[2000] overflow-y-auto">
       <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity" onClick={onClose} />
-        <div className="relative glass-panel rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in border border-white/10">
+        <div className="fixed inset-0 bg-black/80 dark:bg-black/80 light:bg-black/60 backdrop-blur-md transition-opacity" onClick={onClose} />
+        <div className="relative glass-panel rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in theme-border">
           {children}
         </div>
       </div>
@@ -122,14 +122,14 @@ function ReportForm({ token, onReportSubmitted, onClose, userLocation }) {
   };
 
   return (
-    <div className="p-6 text-white">
+    <div className="p-6 theme-text">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">Submit E-Waste Incident</h2>
-          <p className="text-sm text-gray-400 mt-1">Report improper disposal or request cleanup</p>
+          <p className="text-sm theme-text-muted mt-1">Report improper disposal or request cleanup</p>
         </div>
-        <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors">
-          <X className="w-5 h-5 text-gray-400" />
+        <button onClick={onClose} className="p-2 hover:theme-glass-overlay-hover rounded-full transition-colors">
+          <X className="w-5 h-5 theme-gray-muted" />
         </button>
       </div>
 
@@ -143,23 +143,23 @@ function ReportForm({ token, onReportSubmitted, onClose, userLocation }) {
 
         <div className="grid md:grid-cols-2 gap-5">
           <div className="md:col-span-2">
-            <label className="block text-xs font-bold text-gray-400 uppercase ml-1 mb-1">Title</label>
+            <label className="block text-xs font-bold theme-text-muted uppercase ml-1 mb-1">Title</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-emerald-500 focus:outline-none transition-colors"
+              className="w-full theme-glass-overlay theme-border rounded-xl px-4 py-3 text-sm theme-text focus:border-emerald-500 focus:outline-none transition-colors"
               placeholder="e.g. Pile of batteries near park"
               required
             />
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-xs font-bold text-gray-400 uppercase ml-1 mb-1">Description</label>
+            <label className="block text-xs font-bold theme-text-muted uppercase ml-1 mb-1">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-emerald-500 focus:outline-none transition-colors resize-none"
+              className="w-full theme-glass-overlay theme-border rounded-xl px-4 py-3 text-sm theme-text focus:border-emerald-500 focus:outline-none transition-colors resize-none"
               rows="4"
               placeholder="Provide details about the e-waste..."
               required
@@ -167,11 +167,11 @@ function ReportForm({ token, onReportSubmitted, onClose, userLocation }) {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase ml-1 mb-1">Type</label>
+            <label className="block text-xs font-bold theme-text-muted uppercase ml-1 mb-1">Type</label>
             <select
               value={type}
               onChange={(e) => setType(e.target.value)}
-              className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-emerald-500 focus:outline-none transition-colors"
+              className="w-full theme-glass-overlay theme-border rounded-xl px-4 py-3 text-sm theme-text focus:border-emerald-500 focus:outline-none transition-colors"
             >
               <option value="report">Report Issue</option>
               <option value="cleanup">Cleanup Activity</option>
@@ -180,11 +180,11 @@ function ReportForm({ token, onReportSubmitted, onClose, userLocation }) {
 
           {type === "report" && (
             <div>
-              <label className="block text-xs font-bold text-gray-400 uppercase ml-1 mb-1">Severity</label>
+              <label className="block text-xs font-bold theme-text-muted uppercase ml-1 mb-1">Severity</label>
               <select
                 value={severity}
                 onChange={(e) => setSeverity(e.target.value)}
-                className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-emerald-500 focus:outline-none transition-colors"
+                className="w-full theme-glass-overlay theme-border rounded-xl px-4 py-3 text-sm theme-text focus:border-emerald-500 focus:outline-none transition-colors"
               >
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
@@ -195,26 +195,26 @@ function ReportForm({ token, onReportSubmitted, onClose, userLocation }) {
 
           <div className="md:col-span-2">
             <div className="flex items-center justify-between mb-2">
-              <label className="block text-xs font-bold text-gray-400 uppercase ml-1">Location</label>
+              <label className="block text-xs font-bold theme-text-muted uppercase ml-1">Location</label>
               <button type="button" onClick={handleUseMyLocation} className="flex items-center gap-1 text-xs text-emerald-400 font-bold hover:text-emerald-300">
                 <Navigation className="w-3 h-3" /> Use My Location
               </button>
             </div>
             <div className="relative">
-              <MapPinned className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <MapPinned className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 theme-gray-muted" />
               <input
                 type="text"
                 value={locationName}
                 onChange={(e) => setLocationName(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm focus:border-emerald-500 focus:outline-none transition-colors"
+                className="w-full theme-glass-overlay theme-border rounded-xl pl-11 pr-4 py-3 text-sm theme-text focus:border-emerald-500 focus:outline-none transition-colors"
                 placeholder="Enter location name"
               />
             </div>
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-xs font-bold text-gray-400 uppercase ml-1 mb-1">Evidence Upload</label>
-            <div className="border-2 border-dashed border-white/10 rounded-xl p-6 text-center hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-colors">
+            <label className="block text-xs font-bold theme-text-muted uppercase ml-1 mb-1">Evidence Upload</label>
+            <div className="border-2 border-dashed theme-border rounded-xl p-6 text-center hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-colors">
               <input
                 type="file"
                 accept="image/*,video/*"
@@ -225,14 +225,14 @@ function ReportForm({ token, onReportSubmitted, onClose, userLocation }) {
               />
               <label htmlFor="media-upload" className="cursor-pointer flex flex-col items-center">
                 <Upload className="w-10 h-10 text-emerald-400 mb-2" />
-                <span className="text-sm font-medium text-gray-200">{media ? media.name : "Click to upload proof"}</span>
+                <span className="text-sm font-medium theme-text-secondary">{media ? media.name : "Click to upload proof"}</span>
               </label>
             </div>
           </div>
         </div>
 
         <div className="flex gap-3 pt-4">
-          <button type="button" onClick={onClose} className="flex-1 px-6 py-3 border border-white/10 text-gray-400 rounded-xl font-bold hover:bg-white/5 transition-colors">Cancel</button>
+          <button type="button" onClick={onClose} className="flex-1 px-6 py-3 theme-border theme-gray rounded-xl font-bold hover:theme-glass-overlay-hover transition-colors">Cancel</button>
           <button type="submit" disabled={isSubmitting} className="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-emerald-500/20 transition-all">
             {isSubmitting ? "Submitting..." : "Submit Report"}
           </button>
@@ -257,8 +257,8 @@ function StatsCard({ icon: Icon, label, value, trend, color }) {
         )}
       </div>
       <div className="mt-4">
-        <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">{label}</p>
-        <p className="text-3xl font-black text-white mt-1">{value}</p>
+        <p className="theme-text-muted text-xs font-bold uppercase tracking-widest">{label}</p>
+        <p className="text-3xl font-black theme-text mt-1">{value}</p>
       </div>
     </div>
   );
@@ -329,25 +329,25 @@ export default function UserDash() {
     window.location.href = "/login";
   };
 
-  if (loading) return <div className="min-h-screen bg-[#0f172a] flex items-center justify-center"><Loader className="animate-spin text-emerald-400" size={40} /></div>;
+  if (loading) return <div className="min-h-screen theme-bg flex items-center justify-center"><Loader className="animate-spin text-emerald-400" size={40} /></div>;
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-12">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-12">
       
       {/* Header */}
       <div className="max-w-7xl mx-auto flex justify-between items-center mb-8 animate-fade-in-down">
          <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 p-[2px]">
-               <div className="w-full h-full rounded-full bg-[#0f172a] flex items-center justify-center">
+               <div className="w-full h-full rounded-full theme-bg flex items-center justify-center">
                   <span className="text-xl font-bold text-white">{userStats.name?.charAt(0) || "U"}</span>
                </div>
             </div>
             <div>
-               <h1 className="text-2xl font-bold text-white">Welcome, {userStats.name || "Recycler"}</h1>
-               <p className="text-sm text-gray-400 flex items-center gap-1"><MapPin size={12}/> {userLocation?.city || "Detecting location..."}</p>
+               <h1 className="text-2xl font-bold theme-text">Welcome, {userStats.name || "Recycler"}</h1>
+               <p className="text-sm theme-text-muted flex items-center gap-1"><MapPin size={12}/> {userLocation?.city || "Detecting location..."}</p>
             </div>
          </div>
-         <button onClick={handleLogout} className="p-2 bg-white/5 hover:bg-red-500/10 text-gray-400 hover:text-red-400 rounded-xl transition-all"><LogOut size={20}/></button>
+         <button onClick={handleLogout} className="p-2 theme-glass-overlay hover:bg-red-500/10 theme-gray hover:text-red-400 rounded-xl transition-all"><LogOut size={20}/></button>
       </div>
 
       <div className="max-w-7xl mx-auto space-y-8">
@@ -357,7 +357,7 @@ export default function UserDash() {
            <StatsCard icon={Award} label="Green Credits" value={userStats.totalPoints || 0} trend={`+${userStats.monthlyPoints || 0}`} />
            <StatsCard icon={Zap} label="Impact Score" value={((userStats.totalPoints || 0) / 10).toFixed(1) + " kg"} />
            <StatsCard icon={Target} label="Month Rank" value={`#${userStats.rank || "-"}`} />
-           <div className="glass-panel p-6 rounded-2xl flex flex-col justify-center items-center text-center border-2 border-dashed border-emerald-500/30 hover:bg-emerald-500/5 transition-all cursor-pointer" onClick={() => setIsReportModalOpen(true)}>
+           <div className="glass-panel p-6 rounded-2xl flex flex-col justify-center items-center text-center border-2 border-dashed border-emerald-500/30 hover:bg-emerald-500/5 transition-all cursor-pointer theme-border" onClick={() => setIsReportModalOpen(true)}>
               <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 mb-2">
                  <Plus className="text-white" size={24} />
               </div>
@@ -367,32 +367,32 @@ export default function UserDash() {
 
         <div className="grid lg:grid-cols-3 gap-8">
            {/* Map */}
-           <div className="lg:col-span-2 glass-panel rounded-2xl border border-white/10 overflow-hidden h-[400px] animate-fade-in-up delay-100">
-              <div className="p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
+           <div className="lg:col-span-2 glass-panel rounded-2xl theme-border overflow-hidden h-[400px] animate-fade-in-up delay-100">
+              <div className="p-4 border-b theme-border flex justify-between items-center theme-glass-overlay">
                  <h3 className="font-bold flex items-center gap-2"><MapIcon className="text-emerald-400" size={18} /> E-Waste Heatmap</h3>
               </div>
               <TrashMap className="w-full h-full" />
            </div>
 
            {/* Recent Activity */}
-           <div className="glass-panel rounded-2xl border border-white/10 p-6 animate-fade-in-up delay-200">
+           <div className="glass-panel rounded-2xl theme-border p-6 animate-fade-in-up delay-200">
               <h3 className="font-bold flex items-center gap-2 mb-4"><Activity className="text-blue-400" size={18} /> Recent Activity</h3>
               <div className="space-y-4">
                  {recentReports.length > 0 ? recentReports.map(r => (
                     <div key={r._id} className="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center gap-3 group">
                        <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400"><CheckCircle size={16}/></div>
                        <div className="flex-1">
-                          <p className="text-sm font-bold text-gray-200">{r.title}</p>
-                          <p className="text-[10px] text-gray-500">{new Date(r.createdAt).toLocaleDateString()}</p>
+                          <p className="text-sm font-bold theme-text-secondary">{r.title}</p>
+                          <p className="text-[10px] theme-text-muted">{new Date(r.createdAt).toLocaleDateString()}</p>
                        </div>
                        <div className="flex items-center gap-3">
                          <span className="text-xs font-bold text-emerald-500">{r.status}</span>
-                         <button onClick={() => navigate(`/user/report/${r._id}`)} className="p-1.5 bg-white/5 rounded-lg text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/20 transition-all opacity-50 group-hover:opacity-100">
+                         <button onClick={() => navigate(`/user/report/${r._id}`)} className="p-1.5 theme-glass-overlay rounded-lg theme-gray hover:text-emerald-400 hover:bg-emerald-500/20 transition-all opacity-50 group-hover:opacity-100">
                             <Eye size={14}/>
                          </button>
                        </div>
                     </div>
-                 )) : <p className="text-gray-500 text-center py-4">No recent activity.</p>}
+                 )) : <p className="theme-text-muted text-center py-4">No recent activity.</p>}
               </div>
            </div>
         </div>

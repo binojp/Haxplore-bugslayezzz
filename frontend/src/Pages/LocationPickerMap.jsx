@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
+import { MapContainer, Marker, useMapEvents, useMap } from "react-leaflet";
+import ThemeAwareTileLayer from "../components/ThemeAwareTileLayer";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -190,10 +191,7 @@ export default function LocationPickerMap({
         zoomControl={true}
       >
         <MapSizeFix />
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; OpenStreetMap contributors'
-        />
+        <ThemeAwareTileLayer />
         <ClickHandler onLocationSelect={handleLocationSelect} />
       </MapContainer>
 

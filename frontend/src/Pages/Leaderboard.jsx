@@ -72,7 +72,7 @@ export default function Leaderboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+      <div className="min-h-screen theme-bg flex items-center justify-center">
         <LoaderCircle className="animate-spin text-emerald-400" size={48} />
       </div>
     );
@@ -80,7 +80,7 @@ export default function Leaderboard() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center p-4">
+      <div className="min-h-screen theme-bg flex items-center justify-center p-4">
         <div className="text-center glass-panel p-8 rounded-2xl">
           <p className="text-red-400 mb-4">{error}</p>
           <button
@@ -97,14 +97,14 @@ export default function Leaderboard() {
   const currentMonth = new Date().toLocaleString("default", { month: "long" });
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-24 overflow-x-hidden">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-24 overflow-x-hidden">
       
       {/* Header */}
       <div className="max-w-4xl mx-auto text-center mb-8 animate-fade-in-up">
         <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2">
           Top E-Waste Recyclers
         </h1>
-        <p className="text-gray-400">Competing to save the planet, one device at a time.</p>
+        <p className="theme-text-muted">Competing to save the planet, one device at a time.</p>
       </div>
 
       {/* Current User Stats */}
@@ -128,9 +128,9 @@ export default function Leaderboard() {
       )}
 
       {/* Leaderboard List */}
-      <div className="max-w-4xl mx-auto glass-panel rounded-2xl overflow-hidden border border-white/5">
-        <div className="p-4 border-b border-white/5 bg-white/5 flex justify-between items-center">
-          <h2 className="font-bold text-white flex items-center gap-2">
+      <div className="max-w-4xl mx-auto glass-panel rounded-2xl overflow-hidden theme-border">
+        <div className="p-4 border-b theme-border theme-glass-overlay flex justify-between items-center">
+          <h2 className="font-bold theme-text flex items-center gap-2">
             <Award className="text-emerald-400" size={18} /> {currentMonth} Leaders
           </h2>
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">
@@ -174,8 +174,8 @@ export default function Leaderboard() {
               </div>
             ))
           ) : (
-            <div className="p-8 text-center text-gray-500">
-              <Zap className="mx-auto mb-2 text-gray-600" size={24} />
+            <div className="p-8 text-center theme-text-muted">
+              <Zap className="mx-auto mb-2 theme-text-muted" size={24} />
               <p>No recyclers yet this month. Be the first!</p>
             </div>
           )}

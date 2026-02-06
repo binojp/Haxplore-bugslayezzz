@@ -4,32 +4,32 @@ import { ArrowRight, Zap, MapPin, Award, Leaf, TrendingUp, Cpu } from "lucide-re
 
 const FeatureCard = ({ icon: Icon, title, description, delay }) => (
   <div 
-    className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:-translate-y-2 group"
+    className="theme-glass-overlay backdrop-blur-md theme-border p-6 rounded-2xl hover:theme-glass-overlay-hover transition-all duration-300 hover:-translate-y-2 group"
     style={{ animationDelay: `${delay}ms` }}
   >
     <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
       <Icon className="text-emerald-400 w-6 h-6" />
     </div>
-    <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-    <p className="text-gray-400 text-sm leading-relaxed">{description}</p>
+    <h3 className="text-xl font-bold theme-text mb-2">{title}</h3>
+    <p className="theme-text-muted text-sm leading-relaxed">{description}</p>
   </div>
 );
 
 const StatCard = ({ value, label, delay }) => (
   <div 
-    className="text-center p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/5 animate-scale-in"
+    className="text-center p-6 theme-glass-overlay backdrop-blur-md rounded-2xl theme-border animate-scale-in"
     style={{ animationDelay: `${delay}ms` }}
   >
     <h4 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2">
       {value}
     </h4>
-    <p className="text-gray-400 uppercase tracking-widest text-xs font-bold">{label}</p>
+    <p className="theme-text-muted uppercase tracking-widest text-xs font-bold">{label}</p>
   </div>
 );
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white overflow-hidden relative selection:bg-emerald-500/30">
+    <div className="min-h-screen theme-bg theme-text overflow-hidden relative selection:bg-emerald-500/30">
       
       {/* Background Gradients */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
@@ -51,7 +51,7 @@ export default function Home() {
             For A Better Future.
           </h1>
           
-          <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+          <p className="text-xl theme-text-muted mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: "200ms" }}>
             The smartest way to recycle electronics. Scan your gadgets, find closest bins with AI, earn Green Credits, and track your environmental impact in real-time.
           </p>
           

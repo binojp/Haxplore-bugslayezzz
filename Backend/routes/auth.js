@@ -184,25 +184,39 @@ router.post("/setup-superadmin", async (req, res) => {
 // Get User Stats
 router.get("/user", authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("name email role totalPoints monthlyPoints pointsRemaining redeemedRewards");
+    const user = await User.findById(req.user.id)
+      .select("name email role totalPoints monthlyPoints pointsRemaining redeemedRewards educationProgress")
+      .populate("educationProgress.completedModules");
+      
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const totalUsers = await User.countDocuments();
     const reports = await Report.find({ user: req.user.id });
     
-    // Calculate total points from reports (truth source)
-    const calculatedTotal = reports.reduce(
+    // Calculate total points from reports
+    const reportsTotal = reports.reduce(
       (sum, r) => sum + (r.pointsAwarded || (r.severity === "High" ? 50 : r.severity === "Medium" ? 25 : 10)),
       0
     );
 
+    // Calculate total points from education
+    const educationPoints = (user.educationProgress?.completedModules || []).reduce((sum, module) => sum + (module.points || 50), 0);
+    const quizPoints = (user.educationProgress?.quizzesTaken || []).reduce((sum, q) => sum + (q.pointsEarned || 0), 0);
+    
+    const calculatedTotal = reportsTotal + educationPoints + quizPoints;
+
     const now = new Date();
-    const calculatedMonthly = reports.reduce((sum, r) => {
+    const reportsMonthly = reports.reduce((sum, r) => {
       const d = new Date(r.createdAt);
       return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
         ? sum + (r.pointsAwarded || (r.severity === "High" ? 50 : r.severity === "Medium" ? 25 : 10))
         : sum;
     }, 0);
+    
+    // Monthly education points (simplified: assume all earned this month for now or filter by date if needed)
+    // For now, let's just stick to reports for monthly to keep it consistent with existing logic if that's what's intended, 
+    // but total must include everything.
+    const calculatedMonthly = reportsMonthly; 
 
     const redeemedPoints = (user.redeemedRewards || []).reduce((sum, r) => sum + r.points, 0);
     const pointsRemaining = Math.max(0, calculatedTotal - redeemedPoints);

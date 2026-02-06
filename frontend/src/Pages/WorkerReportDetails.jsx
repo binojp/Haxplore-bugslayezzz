@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 import {
   MapPin,
   Clock,
@@ -15,6 +16,8 @@ import {
   Activity,
   Calendar,
   Trash2,
+  LoaderCircle,
+  Shield,
 } from "lucide-react";
 
 export default function WorkerReportDetails() {
@@ -55,9 +58,9 @@ export default function WorkerReportDetails() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setReport(response.data);
-      alert("Status updated successfully!");
+      toast.success("Status updated successfully!");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to update status");
+      toast.error(err.response?.data?.message || "Failed to update status");
     }
   };
 
@@ -69,9 +72,9 @@ export default function WorkerReportDetails() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setReport(response.data);
-      alert("Photo verified successfully!");
+      toast.success("Photo verified successfully!");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to verify photo");
+      toast.error(err.response?.data?.message || "Failed to verify photo");
     }
   };
 
@@ -83,9 +86,9 @@ export default function WorkerReportDetails() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setReport(response.data.report);
-      alert("Report assigned to you!");
+      toast.success("Report assigned to you!");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to assign report");
+      toast.error(err.response?.data?.message || "Failed to assign report");
     }
   };
 
@@ -120,13 +123,13 @@ export default function WorkerReportDetails() {
   };
 
   if (loading) return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
-      <Loader className="animate-spin text-emerald-400" size={40} />
+    <div className="min-h-screen theme-bg flex items-center justify-center">
+      <LoaderCircle className="animate-spin text-emerald-400" size={40} />
     </div>
   );
 
   if (error) return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center p-4">
+    <div className="min-h-screen theme-bg flex items-center justify-center p-4">
       <div className="glass-panel p-8 rounded-2xl border border-red-500/20 text-center max-w-md">
         <AlertCircle className="text-red-400 mx-auto mb-4" size={48} />
         <h2 className="text-xl font-bold text-white mb-2">Error</h2>
@@ -137,7 +140,7 @@ export default function WorkerReportDetails() {
   );
 
   if (!report) return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center p-4">
+    <div className="min-h-screen theme-bg flex items-center justify-center p-4">
       <div className="glass-panel p-8 rounded-2xl border border-white/10 text-center max-w-md">
         <XCircle className="text-gray-500 mx-auto mb-4" size={48} />
         <h2 className="text-xl font-bold text-white mb-2">Not Found</h2>
@@ -148,7 +151,7 @@ export default function WorkerReportDetails() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-12 relative overflow-hidden">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-12 relative overflow-hidden">
       {/* Background Gradients */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
@@ -358,7 +361,7 @@ export default function WorkerReportDetails() {
             <div className="space-y-10">
               {report.replies.map((reply, index) => (
                 <div key={index} className="relative pl-10 border-l-2 border-emerald-500/20 ml-2">
-                  <div className="absolute top-0 left-[-11px] w-5 h-5 rounded-full bg-[#0f172a] border-4 border-emerald-500" />
+                  <div className="absolute top-0 left-[-11px] w-5 h-5 rounded-full theme-bg border-4 border-emerald-500" />
                   
                   <div className="glass-panel p-6 rounded-2xl border border-white/5">
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-4">

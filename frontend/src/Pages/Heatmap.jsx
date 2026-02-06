@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Component } from "react";
-import { MapContainer, TileLayer, Marker, Popup, ZoomControl } from "react-leaflet";
+import { MapContainer, Marker, Popup, ZoomControl } from "react-leaflet";
+import ThemeAwareTileLayer from "../components/ThemeAwareTileLayer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
@@ -204,10 +205,7 @@ const mapCenter = [9.5916, 76.5221];
           scrollWheelZoom={true}
           zoomControl={false}
         >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; OpenStreetMap contributors'
-          />
+          <ThemeAwareTileLayer />
           <ZoomControl position="bottomright" />
           
           {reports.map((report) => (

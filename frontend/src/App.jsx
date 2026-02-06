@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Heatmap from "./Pages/Heatmap";
@@ -19,12 +20,14 @@ import Mapauto from "./Pages/Mapauto.jsx";
 import TruckMap from "./Pages/TruckMap.jsx";
 import WorkerRoutes from "./Pages/WorkerRoutes.jsx";
 import Home from "./Pages/Home.jsx";
+import Education from "./Pages/Education.jsx";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -44,7 +47,9 @@ export default function App() {
         <Route path="/mapauto" element={<Mapauto/>} />
         <Route path="/admin/truck-map" element={<TruckMap />} />
         <Route path="/worker/routes" element={<WorkerRoutes />} />
+        <Route path="/education" element={<Education />} />
       </Routes>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }

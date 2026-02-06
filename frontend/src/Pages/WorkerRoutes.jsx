@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import toast from "react-hot-toast";
+import { MapContainer, Marker, Popup, useMap } from "react-leaflet";
+import ThemeAwareTileLayer from "../components/ThemeAwareTileLayer";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
@@ -155,11 +157,11 @@ export default function WorkerRoutes() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      alert(`Route ${status.toLowerCase()} successfully!`);
+      toast.success(`Route ${status.toLowerCase()} successfully!`);
       fetchRoutes();
     } catch (err) {
       console.error("Error updating route:", err);
-      alert(err.response?.data?.message || "Failed to update route");
+      toast.error(err.response?.data?.message || "Failed to update route");
     } finally {
       setUpdating(false);
     }
@@ -167,7 +169,7 @@ export default function WorkerRoutes() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+      <div className="min-h-screen theme-bg flex items-center justify-center">
         <LoaderCircle className="animate-spin text-emerald-400" size={48} />
       </div>
     );
@@ -175,11 +177,11 @@ export default function WorkerRoutes() {
 
   if (routes.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0f172a] text-white flex items-center justify-center p-4">
+      <div className="min-h-screen theme-bg theme-text flex items-center justify-center p-4">
         <div className="text-center">
           <Package className="mx-auto text-gray-600 mb-4" size={64} />
-          <h2 className="text-2xl font-bold text-gray-400 mb-2">No Routes Assigned</h2>
-          <p className="text-gray-600 text-sm">Check back later for new collection routes</p>
+          <h2 className="text-2xl font-bold theme-text-muted mb-2">No Routes Assigned</h2>
+          <p className="theme-text-muted text-sm">Check back later for new collection routes</p>
         </div>
       </div>
     );
@@ -190,12 +192,12 @@ export default function WorkerRoutes() {
     : [28.6139, 77.209];
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-24">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-24">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-black text-emerald-400 mb-2">My Collection Routes</h1>
-          <p className="text-gray-400 text-sm">{routes.length} assigned route(s)</p>
+          <p className="theme-text-muted text-sm">{routes.length} assigned route(s)</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -208,7 +210,7 @@ export default function WorkerRoutes() {
                 style={{ height: "100%", width: "100%" }}
                 className="z-0"
               >
-                <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
+                <ThemeAwareTileLayer />
 
                 {/* OSRM turn-by-turn routing */}
                 <RoutingControl waypoints={selectedRoute.bins} />
@@ -251,7 +253,7 @@ export default function WorkerRoutes() {
                   const route = routes.find((r) => r._id === e.target.value);
                   setSelectedRoute(route);
                 }}
-                className="w-full bg-slate-800 border border-white/10 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-emerald-500"
+                className="w-full theme-glass-overlay theme-border rounded-xl p-3 theme-text text-sm focus:outline-none focus:border-emerald-500"
               >
                 {routes.map((route, index) => (
                   <option key={route._id} value={route._id}>
@@ -317,14 +319,14 @@ export default function WorkerRoutes() {
 
                 {/* Stops List */}
                 <div>
-                  <h4 className="text-sm font-bold text-gray-400 uppercase mb-3 flex items-center gap-2">
+                  <h4 className="text-sm font-bold theme-text-muted uppercase mb-3 flex items-center gap-2">
                     <MapPin size={14} /> Collection Stops
                   </h4>
                   <div className="space-y-2">
                     {selectedRoute.bins?.map((bin, index) => (
                       <div
                         key={bin._id}
-                        className="p-3 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 transition-all"
+                        className="p-3 theme-glass-overlay theme-border rounded-xl hover:theme-glass-overlay-hover transition-all"
                       >
                         <div className="flex items-start gap-3">
                           <div className="w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">

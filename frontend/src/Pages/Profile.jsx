@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { MapPin, Home, Calendar, Plus, X, LoaderCircle, Zap, Shield, Award, Leaf } from "lucide-react";
 import {
   MapContainer,
-  TileLayer,
   Marker,
   Popup,
   useMapEvents,
 } from "react-leaflet";
+import ThemeAwareTileLayer from "../components/ThemeAwareTileLayer";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
@@ -110,7 +111,7 @@ export default function Profile() {
 
   const handleTrackLocation = () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
+      toast.error("Geolocation is not supported by your browser.");
       return;
     }
 
@@ -130,7 +131,7 @@ export default function Profile() {
           .catch(() => setLocationName("Unable to fetch location name"));
       },
       (error) => {
-        alert("Error getting location. Please select on map.");
+        toast.error("Error getting location. Please select on map.");
       }
     );
   };
@@ -157,7 +158,7 @@ export default function Profile() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      alert("Home address updated successfully!");
+      toast.success("Home address updated successfully!");
       setShowAddHome(false);
       fetchData();
     } catch (err) {
@@ -186,7 +187,7 @@ export default function Profile() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      alert("Collection scheduled successfully!");
+      toast.success("Collection scheduled successfully!");
       setShowScheduleCollection(false);
       setFormData((prev) => ({ ...prev, scheduledDate: "", wasteType: "battery", notes: "" }));
       fetchData();
@@ -209,7 +210,7 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+      <div className="min-h-screen theme-bg flex items-center justify-center">
         <LoaderCircle className="animate-spin text-emerald-400" size={48} />
       </div>
     );
@@ -224,7 +225,7 @@ export default function Profile() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-4 pt-24 pb-24 overflow-x-hidden">
+    <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-24 overflow-x-hidden">
       
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         
@@ -236,7 +237,7 @@ export default function Profile() {
             <div className="absolute inset-0 bg-emerald-500/10 blur-3xl group-hover:bg-emerald-500/20 transition-all opacity-50" />
             <div className="relative">
               <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 p-1 mb-4 shadow-lg shadow-emerald-500/30">
-                <div className="w-full h-full rounded-full bg-[#0f172a] flex items-center justify-center">
+                <div className="w-full h-full rounded-full theme-bg flex items-center justify-center">
                    <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">
                      {userData?.name?.charAt(0).toUpperCase() || "U"}
                    </span>
@@ -406,9 +407,7 @@ export default function Profile() {
                       zoom={13}
                       style={{ height: "100%", width: "100%" }}
                     >
-                      <TileLayer
-                        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                      />
+                      <ThemeAwareTileLayer />
                       <LocationPicker setLocation={setLocation} setLocationName={setLocationName} />
                     </MapContainer>
                   </div>

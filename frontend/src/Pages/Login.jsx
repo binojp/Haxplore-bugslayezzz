@@ -61,7 +61,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white flex items-center justify-center p-4 pt-32 pb-20 relative overflow-hidden">
+    <div className="min-h-screen theme-bg theme-text flex items-center justify-center p-4 pt-32 pb-20 relative overflow-hidden">
       {/* Background Gradients */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px] animate-pulse" />
@@ -71,18 +71,18 @@ export default function LoginForm() {
 
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-10 animate-fade-in-down">
-          <div className="inline-flex p-4 rounded-3xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 shadow-2xl backdrop-blur-md mb-6 border border-white/10 group-hover:scale-110 transition-transform duration-500">
+          <div className="inline-flex p-4 rounded-3xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 shadow-2xl backdrop-blur-md mb-6 theme-border group-hover:scale-110 transition-transform duration-500">
             <div className="p-3 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 shadow-lg shadow-emerald-500/20">
               <Leaf className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h2 className="text-4xl font-black tracking-tight text-white mb-3">
+          <h2 className="text-4xl font-black tracking-tight theme-text mb-3">
             Welcome <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Back</span>
           </h2>
-          <p className="text-gray-400 font-medium tracking-wide">Enter your details to access your portal</p>
+          <p className="theme-text-muted font-medium tracking-wide">Enter your details to access your portal</p>
         </div>
 
-        <div className="glass-panel p-10 rounded-[2.5rem] border border-white/10 shadow-2xl backdrop-blur-2xl animate-fade-in-up delay-100 relative overflow-hidden">
+        <div className="glass-panel p-10 rounded-[2.5rem] theme-border shadow-2xl backdrop-blur-2xl animate-fade-in-up delay-100 relative overflow-hidden">
           {/* Subtle light streak */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
           
@@ -91,14 +91,14 @@ export default function LoginForm() {
               <label className="text-xs font-black text-gray-444 uppercase tracking-[0.2em] ml-1 opacity-70">Email Address</label>
               <div className="relative group">
                 <div className="absolute inset-0 bg-emerald-500/5 rounded-2xl blur-lg opacity-0 group-focus-within:opacity-100 transition-opacity" />
-                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-emerald-400 transition-colors" size={20} />
+                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 theme-gray-muted group-focus-within:text-emerald-400 transition-colors" size={20} />
                 <input
                   type="email"
                   name="email"
                   placeholder="name@example.com"
                   value={formData.email}
                   onChange={handleChange}
-                  className="relative w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition-all font-medium text-sm"
+                  className="relative w-full theme-glass-overlay theme-border rounded-2xl py-4 pl-14 pr-5 theme-text placeholder-gray-600 dark:placeholder-gray-600 light:placeholder-gray-400 focus:outline-none focus:border-emerald-500/50 focus:theme-glass-overlay-hover transition-all font-medium text-sm"
                 />
               </div>
               {errors.email && (
@@ -120,7 +120,7 @@ export default function LoginForm() {
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={handleChange}
-                  className="relative w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition-all font-medium text-sm"
+                  className="relative w-full theme-glass-overlay theme-border rounded-2xl py-4 pl-14 pr-5 theme-text placeholder-gray-600 dark:placeholder-gray-600 light:placeholder-gray-400 focus:outline-none focus:border-emerald-500/50 focus:theme-glass-overlay-hover transition-all font-medium text-sm"
                 />
               </div>
               {errors.password && (
@@ -145,7 +145,7 @@ export default function LoginForm() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-10 font-medium">
+          <p className="text-center text-sm theme-gray-muted mt-10 font-medium">
             New here?{" "}
             <Link to="/register" className="text-emerald-400 hover:text-emerald-300 font-black hover:underline underline-offset-8 transition-all">
               Create an account

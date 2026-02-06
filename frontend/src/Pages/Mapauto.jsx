@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, Marker, Popup, useMap } from 'react-leaflet';
+import ThemeAwareTileLayer from '../components/ThemeAwareTileLayer';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet/dist/leaflet.css';
@@ -101,10 +102,7 @@ const SmartRouteAI = () => {
       {/* MAP VIEW */}
       <div style={{ flex: 1, position: 'relative' }}>
         <MapContainer center={[9.4900, 76.5400]} zoom={13} style={{ height: '100%', width: '100%' }}>
-          <TileLayer 
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            attribution='&copy; OpenStreetMap contributors'
-          />
+          <ThemeAwareTileLayer />
           
           {bins.map(bin => (
             <Marker key={bin.id} position={bin.pos}>
