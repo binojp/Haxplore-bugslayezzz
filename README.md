@@ -2,7 +2,7 @@
 
 **Live Website:** https://haxplorebugslayezzz.pages.dev  
 
-**Video Demo:** 
+**Video Demo:** https://drive.google.com/file/d/1awu2_qnm3beL0y_7VbeKEk0f520FbJZE/view?usp=sharing
 
 **Github:** https://github.com/binojp/Haxplore-bugslayezzz
 
