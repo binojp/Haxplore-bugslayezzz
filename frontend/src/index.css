@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* Leaflet Fixes */
+
+:root {
+  --color-glass-surface: rgba(255, 255, 255, 0.1);
+  --color-glass-border: rgba(255, 255, 255, 0.2);
+  --color-primary-glow: #10b981;
+  --color-secondary-glow: #3b82f6;
+  --glass-bg: rgba(22, 22, 24, 0.7);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --neon-green: #00ff9d;
+  --neon-blue: #00bcd4;
+}
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+:root {
+  --glass-bg: rgba(22, 22, 24, 0.7);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --neon-green: #00ff9d;
+  --neon-blue: #00bcd4;
+}
+
+body {
+  background-color: #0f172a;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+.glass-panel {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-input {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 10px rgba(0, 255, 157, 0.2);
+  outline: none;
+}
+
+.glass-btn {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.8), rgba(6, 95, 70, 0.8));
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.glass-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.glass-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.glass-card:hover { 
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a; 
+}
+::-webkit-scrollbar-thumb {
+  background: #334155; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569; 
+}
+
+/* Leaflet Routing Machine Dark Mode */
+.leaflet-routing-container {
+    background: rgba(30, 41, 59, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    border-radius: 1rem !important;
+    padding: 1rem !important;
+    font-family: 'Inter', sans-serif !important;
+    max-width: 320px !important;
+}
+
+.leaflet-routing-alt {
+    max-height: 200px !important;
+    overflow-y: auto !important;
+}
+
+.leaflet-routing-alt::-webkit-scrollbar {
+    width: 4px;
+}
+
+.leaflet-routing-alt-sidebar h2 {
+    color: #10b981 !important;
+    font-weight: 800 !important;
+}
+
+.leaflet-routing-icon {
+    filter: invert(1) brightness(2);
+}
+
+/* Hide default routing instructions for cleaner look as we have a custom indicator */
+.leaflet-routing-container {
+    display: none !important;
+}
+
+/* Ensure routing line is on top of tiles but below interactions */
+.leaflet-routing-control-container {
+    z-index: 800 !important;
+}
+
+.leaflet-pane {
+    z-index: 400 !important;
+}
+
+.leaflet-overlay-pane {
+    z-index: 600 !important; /* Routing lines usually go here */
+}
+
+.leaflet-marker-pane {
+    z-index: 700 !important;
+}
+
+.leaflet-top, .leaflet-bottom {
+    z-index: 1000 !important;
+}
+
+/* Mobile specific height adjustment */
+@media (max-width: 768px) {
+    .leaflet-container {
+        height: 100dvh !important;
+    }
+}
+
+.custom-marker-icon {
+    transition: transform 0.3s ease;
+}
+
+.user-marker {
+    z-index: 1000 !important;
+}
