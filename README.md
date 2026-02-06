@@ -1,6 +1,28 @@
 # Smart E-Waste Collection & Disposal Ecosystem 🚀
 
-**EcoLoop** – Make e-waste disposal simple, transparent, rewarding, and actually used.
+**Live Website:** https://ecocycle-haxplore.vercel.app  
+**Video Demo:** https://youtu.be/EXAMPLE_LINK_HERE (replace with actual)  
+
+**Team Name:** Bugslayezzz  
+**Team Leader:** Bino  J Panicker
+
+## Quick Start
+
+### Backend
+```bash
+cd backend
+npm install
+npm start
+```
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+**.env files are not included in the repo**  
 
 ## Table of Contents
 

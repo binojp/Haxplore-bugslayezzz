@@ -27,7 +27,7 @@ const getNavLinks = (userRole) => {
 
   return [
     ...baseLinks,
-    { href: "/report", label: "Scan E-Waste", icon: Leaf },
+    { href: "/report", label: "Scan", icon: Leaf },
     { href: "/education", label: "Learn", icon: Brain },
     { href: "/rewards", label: "Rewards", icon: Award },
     { href: "/leaderboard", label: "Leaderboard", icon: Award },

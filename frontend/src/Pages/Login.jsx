@@ -60,6 +60,45 @@ export default function LoginForm() {
     }
   };
 
+  const handleQuickLogin = async (email, roleLabel) => {
+    setFormData({ email, password: "123456" });
+    setErrors({});
+    
+    // Use a small timeout to allow state to update before submit
+    // although we can call handleSubmit manually or use a effect
+    // But simplest is to just perform the login logic here or trigger a manual submit
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/login`,
+        {
+          email: email,
+          password: "123456",
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      const { token, user } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      if (user.role === "worker") {
+        navigate("/worker/dashboard");
+      } else if (["admin", "superadmin"].includes(user.role)) {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/user/dashboard");
+      }
+    } catch (err) {
+      setErrors({
+        server:
+          err.response?.data?.message ||
+          `Quick Login failed for ${roleLabel}.`,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen theme-bg theme-text flex items-center justify-center p-4 pt-32 pb-20 relative overflow-hidden">
       {/* Background Gradients */}
@@ -145,7 +184,43 @@ export default function LoginForm() {
             </button>
           </form>
 
-          <p className="text-center text-sm theme-gray-muted mt-10 font-medium">
+          {/* Quick Login Section */}
+          <div className="mt-8 pt-8 border-t border-gray-500/10">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-center theme-gray-muted mb-4">Quick Access</p>
+            <div className="grid grid-cols-3 gap-3">
+              <button
+                onClick={() => handleQuickLogin("bino@app.com", "Bino")}
+                className="flex flex-col items-center gap-2 p-3 rounded-2xl theme-glass-overlay theme-border hover:theme-glass-overlay-hover hover:border-emerald-500/30 transition-all group"
+              >
+                <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                  <span className="text-[10px] font-black">U</span>
+                </div>
+                <span className="text-[10px] font-bold theme-text uppercase tracking-wider">User</span>
+              </button>
+              
+              <button
+                onClick={() => handleQuickLogin("bijin@app.com", "Bijin")}
+                className="flex flex-col items-center gap-2 p-3 rounded-2xl theme-glass-overlay theme-border hover:theme-glass-overlay-hover hover:border-cyan-500/30 transition-all group"
+              >
+                <div className="w-8 h-8 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+                  <span className="text-[10px] font-black">A</span>
+                </div>
+                <span className="text-[10px] font-bold theme-text uppercase tracking-wider">Admin</span>
+              </button>
+
+              <button
+                onClick={() => handleQuickLogin("savio@app.com", "Savio")}
+                className="flex flex-col items-center gap-2 p-3 rounded-2xl theme-glass-overlay theme-border hover:theme-glass-overlay-hover hover:border-indigo-500/30 transition-all group"
+              >
+                <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all">
+                  <span className="text-[10px] font-black">W</span>
+                </div>
+                <span className="text-[10px] font-bold theme-text uppercase tracking-wider">Worker</span>
+              </button>
+            </div>
+          </div>
+
+          <p className="text-center text-sm theme-gray-muted mt-8 font-medium">
             New here?{" "}
             <Link to="/register" className="text-emerald-400 hover:text-emerald-300 font-black hover:underline underline-offset-8 transition-all">
               Create an account
@@ -156,3 +231,4 @@ export default function LoginForm() {
     </div>
   );
 }
+

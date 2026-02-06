@@ -37,7 +37,10 @@ export default function App() {
         <Route path="/user/dashboard" element={<UserDash />} />
         <Route path="/admin/dashboard" element={<AdminDash />} />
         <Route path="/add" element={<AddAdmin />} />
-        <Route path="/admin/report/:id" element={<ReportDetails />} />
+          <Route path="a
+        
+        
+        /admin/report/:id" element={<ReportDetails />} />
         <Route path="/worker/report/:id" element={<WorkerReportDetails />} />
         <Route path="/user/report/:id" element={<UserReportDetails />} />
         <Route path="/rewards" element={<RewardsPage />} />
