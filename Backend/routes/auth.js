@@ -5,7 +5,6 @@ const User = require("../models/User");
 const Report = require("../models/report");
 const router = express.Router();
 
-// Middleware to verify JWT
 const authMiddleware = (req, res, next) => {
   const authHeader = req.header("Authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -21,7 +20,6 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-// Middleware to check role
 const roleMiddleware = (roles) => (req, res, next) => {
   if (!roles.includes(req.user.role)) {
     return res.status(403).json({ message: "Access denied" });
@@ -29,7 +27,6 @@ const roleMiddleware = (roles) => (req, res, next) => {
   next();
 };
 
-// Register User
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -58,7 +55,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Add Admin or Worker
 router.post(
   "/admin/add", 
   authMiddleware, 
@@ -93,7 +89,6 @@ router.post(
   }
 );
 
-// Login User
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -126,7 +121,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Add Admin (Superadmin only)
 router.post(
   "/admin",
   authMiddleware,
@@ -156,7 +150,6 @@ router.post(
   }
 );
 
-// Create Superadmin (One-time setup)
 router.post("/setup-superadmin", async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -181,7 +174,6 @@ router.post("/setup-superadmin", async (req, res) => {
   }
 });
 
-// Get User Stats
 router.get("/user", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
@@ -193,13 +185,11 @@ router.get("/user", authMiddleware, async (req, res) => {
     const totalUsers = await User.countDocuments();
     const reports = await Report.find({ user: req.user.id });
     
-    // Calculate total points from reports
     const reportsTotal = reports.reduce(
       (sum, r) => sum + (r.pointsAwarded || (r.severity === "High" ? 50 : r.severity === "Medium" ? 25 : 10)),
       0
     );
 
-    // Calculate total points from education
     const educationPoints = (user.educationProgress?.completedModules || []).reduce((sum, module) => sum + (module.points || 50), 0);
     const quizPoints = (user.educationProgress?.quizzesTaken || []).reduce((sum, q) => sum + (q.pointsEarned || 0), 0);
     
@@ -213,21 +203,16 @@ router.get("/user", authMiddleware, async (req, res) => {
         : sum;
     }, 0);
     
-    // Monthly education points (simplified: assume all earned this month for now or filter by date if needed)
-    // For now, let's just stick to reports for monthly to keep it consistent with existing logic if that's what's intended, 
-    // but total must include everything.
     const calculatedMonthly = reportsMonthly; 
 
     const redeemedPoints = (user.redeemedRewards || []).reduce((sum, r) => sum + r.points, 0);
     const pointsRemaining = Math.max(0, calculatedTotal - redeemedPoints);
 
-    // Sync to user model for query efficiency elsewhere
     user.totalPoints = calculatedTotal;
     user.monthlyPoints = calculatedMonthly;
     user.pointsRemaining = pointsRemaining;
     await user.save();
 
-    // Calculate rank
     const allUsers = await User.find({ role: "user" }).select("totalPoints");
     const sortedUsers = allUsers
       .map((u) => ({ id: u._id.toString(), totalPoints: u.totalPoints || 0 }))
@@ -251,7 +236,6 @@ router.get("/user", authMiddleware, async (req, res) => {
   }
 });
 
-// Get Dashboard Stats
 router.get("/dashboard-stats", authMiddleware, roleMiddleware(["admin", "superadmin"]), async (req, res) => {
   try {
     const today = new Date();
@@ -276,7 +260,6 @@ router.get("/dashboard-stats", authMiddleware, roleMiddleware(["admin", "superad
   }
 });
 
-// Get Top Members
 router.get("/top-members", authMiddleware, roleMiddleware(["admin", "user", "superadmin", "worker"]), async (req, res) => {
   try {
     const users = await User.find({ role: "user" }).select("name email totalPoints monthlyPoints");
@@ -286,13 +269,11 @@ router.get("/top-members", authMiddleware, roleMiddleware(["admin", "user", "sup
     const topMembers = await Promise.all(
       users.map(async (user) => {
         const reports = await Report.find({ user: user._id });
-        // Use pointsAwarded from reports, or calculate from user's totalPoints
         const totalPoints = user.totalPoints || reports.reduce(
           (sum, report) => sum + (report.pointsAwarded || (report.severity === "High" ? 50 : report.severity === "Medium" ? 25 : 10)),
           0
         );
         
-        // Calculate monthly points
         const monthlyPoints = user.monthlyPoints || reports
           .filter((report) => {
             const reportDate = new Date(report.createdAt);
@@ -313,7 +294,7 @@ router.get("/top-members", authMiddleware, roleMiddleware(["admin", "user", "sup
         return {
           id: user._id.toString(),
           name: user.name || user.email,
-          points: monthlyPoints, // Use monthly points for leaderboard
+          points: monthlyPoints, 
           totalPoints: totalPoints,
           reportsThisMonth,
         };
@@ -329,7 +310,6 @@ router.get("/top-members", authMiddleware, roleMiddleware(["admin", "user", "sup
   }
 });
 
-// Get Fine Details (Placeholder)
 router.get("/fines", authMiddleware, roleMiddleware(["admin", "superadmin"]), async (req, res) => {
   try {
     const fineDetails = [
@@ -372,7 +352,6 @@ router.get("/fines", authMiddleware, roleMiddleware(["admin", "superadmin"]), as
   }
 });
 
-// Protected Admin Dashboard Route
 router.get(
   "/admin/dashboard",
   authMiddleware,

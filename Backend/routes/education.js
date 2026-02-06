@@ -6,7 +6,6 @@ const EducationalContent = require("../models/EducationalContent");
 const Quiz = require("../models/Quiz");
 const { generateEducationalContent, generateQuizQuestions, generateImpactExplanation } = require("../utils/geminiAI");
 
-// Middleware to verify JWT token
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -24,16 +23,13 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// GET all educational content
 router.get("/content", authenticateToken, async (req, res) => {
   try {
     const content = await EducationalContent.find().sort({ createdAt: -1 });
     
-    // Get user's completed modules
     const user = await User.findById(req.user.id);
     const completedModuleIds = user.educationProgress?.completedModules || [];
     
-    // Mark completed modules
     const contentWithProgress = content.map(module => ({
       ...module.toObject(),
       completed: completedModuleIds.some(id => id.toString() === module._id.toString())
@@ -46,7 +42,6 @@ router.get("/content", authenticateToken, async (req, res) => {
   }
 });
 
-// GET specific educational content by ID
 router.get("/content/:id", authenticateToken, async (req, res) => {
   try {
     const content = await EducationalContent.findById(req.params.id);
@@ -60,7 +55,6 @@ router.get("/content/:id", authenticateToken, async (req, res) => {
   }
 });
 
-// POST mark module as completed
 router.post("/content/:id/complete", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -70,7 +64,6 @@ router.post("/content/:id/complete", authenticateToken, async (req, res) => {
       return res.status(404).json({ message: "Content not found" });
     }
     
-    // Check if already completed
     const alreadyCompleted = user.educationProgress?.completedModules?.some(
       id => id.toString() === content._id.toString()
     );
@@ -79,7 +72,6 @@ router.post("/content/:id/complete", authenticateToken, async (req, res) => {
       return res.json({ message: "Module already completed", pointsEarned: 0 });
     }
     
-    // Add to completed modules and award points
     if (!user.educationProgress) {
       user.educationProgress = { completedModules: [], quizzesTaken: [], learningStreak: 0 };
     }
@@ -102,7 +94,6 @@ router.post("/content/:id/complete", authenticateToken, async (req, res) => {
   }
 });
 
-// Fallback quiz questions
 const FALLBACK_QUIZZES = {
   "battery-disposal": [
     {
@@ -156,15 +147,12 @@ const FALLBACK_QUIZZES = {
   ]
 };
 
-// GET quiz by topic
 router.get("/quiz/:topic", authenticateToken, async (req, res) => {
   try {
     const { topic } = req.params;
     
-    // Try to find existing quiz for this topic
     let quiz = await Quiz.findOne({ topic }).sort({ createdAt: -1 });
     
-    // If no quiz exists or force regenerate, create new one
     if (!quiz || req.query.regenerate === "true") {
       let questions = [];
       try {
@@ -173,7 +161,6 @@ router.get("/quiz/:topic", authenticateToken, async (req, res) => {
         console.error("AI Quiz Generation failed, using fallbacks:", aiError.message);
       }
       
-      // Use fallbacks if AI failed or returned empty
       if (!questions || questions.length === 0) {
         questions = FALLBACK_QUIZZES[topic] || FALLBACK_QUIZZES["battery-disposal"];
       }
@@ -191,7 +178,6 @@ router.get("/quiz/:topic", authenticateToken, async (req, res) => {
       await quiz.save();
     }
     
-    // Return quiz without correct answers
     const quizForUser = {
       _id: quiz._id,
       topic: quiz.topic,
@@ -212,7 +198,6 @@ router.get("/quiz/:topic", authenticateToken, async (req, res) => {
   }
 });
 
-// POST submit quiz
 router.post("/quiz/submit", authenticateToken, async (req, res) => {
   try {
     const { quizId, answers } = req.body;
@@ -222,7 +207,6 @@ router.post("/quiz/submit", authenticateToken, async (req, res) => {
       return res.status(404).json({ message: "Quiz not found" });
     }
     
-    // Calculate score
     let correctCount = 0;
     const results = quiz.questions.map((q, index) => {
       const isCorrect = answers[index] === q.correctAnswer;
@@ -240,7 +224,6 @@ router.post("/quiz/submit", authenticateToken, async (req, res) => {
     const score = Math.round((correctCount / quiz.questions.length) * 100);
     const passed = score >= quiz.passingScore;
     
-    // Calculate points
     let pointsEarned = 0;
     if (passed) {
       pointsEarned = quiz.points;
@@ -249,14 +232,12 @@ router.post("/quiz/submit", authenticateToken, async (req, res) => {
       }
     }
     
-    // Update user
     const user = await User.findById(req.user.id);
     
     if (!user.educationProgress) {
       user.educationProgress = { completedModules: [], quizzesTaken: [], learningStreak: 0 };
     }
     
-    // Check if quiz already taken
     const alreadyTaken = user.educationProgress.quizzesTaken?.some(
       qt => qt.quizId.toString() === quizId
     );
@@ -274,7 +255,6 @@ router.post("/quiz/submit", authenticateToken, async (req, res) => {
       completedAt: new Date()
     });
     
-    // Update learning streak
     const today = new Date().setHours(0, 0, 0, 0);
     const lastActivity = user.educationProgress.lastActivityDate 
       ? new Date(user.educationProgress.lastActivityDate).setHours(0, 0, 0, 0)
@@ -312,7 +292,6 @@ router.post("/quiz/submit", authenticateToken, async (req, res) => {
   }
 });
 
-// GET user's education progress
 router.get("/progress", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
@@ -333,12 +312,10 @@ router.get("/progress", authenticateToken, async (req, res) => {
   }
 });
 
-// POST generate new educational content using AI
 router.post("/generate-content", authenticateToken, async (req, res) => {
   try {
     const { topic, title, difficulty } = req.body;
     
-    // Check if user is admin
     const user = await User.findById(req.user.id);
     if (user.role !== "admin" && user.role !== "superadmin") {
       return res.status(403).json({ message: "Only admins can generate content" });
@@ -365,15 +342,13 @@ router.post("/generate-content", authenticateToken, async (req, res) => {
   }
 });
 
-// GET environmental impact stats
 router.get("/impact", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     
-    // Calculate impact based on points (simplified calculation)
-    const co2Saved = (user.totalPoints / 10).toFixed(1); // 10 points = 1 kg CO2
-    const treesEquivalent = (user.totalPoints / 100).toFixed(1); // 100 points = 1 tree
-    const itemsRecycled = Math.floor(user.totalPoints / 50); // 50 points per item
+    const co2Saved = (user.totalPoints / 10).toFixed(1); 
+    const treesEquivalent = (user.totalPoints / 100).toFixed(1); 
+    const itemsRecycled = Math.floor(user.totalPoints / 50); 
     
     res.json({
       co2Saved,

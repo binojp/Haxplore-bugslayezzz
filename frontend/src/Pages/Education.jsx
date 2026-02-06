@@ -167,7 +167,6 @@ const QuizModal = ({ quiz, onClose, onSubmit }) => {
           </button>
         </div>
 
-        {/* Progress Bar */}
         <div className="mb-6">
           <div className="flex justify-between text-sm text-gray-400 mb-2">
             <span>Question {currentQuestion + 1} of {quiz.questions.length}</span>
@@ -181,7 +180,6 @@ const QuizModal = ({ quiz, onClose, onSubmit }) => {
           </div>
         </div>
 
-        {/* Question */}
         <div className="mb-6">
           <h3 className="text-xl font-semibold text-white mb-4">{question.question}</h3>
           <div className="space-y-3">
@@ -202,7 +200,6 @@ const QuizModal = ({ quiz, onClose, onSubmit }) => {
           </div>
         </div>
 
-        {/* Navigation */}
         <div className="flex gap-3">
           <button
             onClick={handlePrevious}
@@ -350,8 +347,6 @@ export default function Education() {
       toast.success(`Module completed! +${selectedContent.points} points`);
       setSelectedContent(null);
       fetchData();
-      // Also trigger a refresh of the user's overall points from the profile endpoint
-      // const token = localStorage.getItem("token");
       await axios.get(`${import.meta.env.VITE_API_URL}/api/user`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -392,7 +387,6 @@ export default function Education() {
     <div className="min-h-screen theme-bg theme-text p-4 pt-24 pb-24">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-full mb-4">
             <Sparkles size={16} />
@@ -406,7 +400,6 @@ export default function Education() {
           </p>
         </div>
 
-        {/* Impact Stats */}
         {impact && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             <div className="glass-panel p-6 rounded-2xl text-center">
@@ -432,7 +425,6 @@ export default function Education() {
           </div>
         )}
 
-        {/* Quick Quiz Section */}
         <div className="glass-panel p-8 rounded-3xl mb-12 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/30">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4">
@@ -453,7 +445,6 @@ export default function Education() {
           </div>
         </div>
 
-        {/* Educational Content Grid */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
             <BookOpen className="text-emerald-400" />
@@ -471,7 +462,6 @@ export default function Education() {
           </div>
         </div>
 
-        {/* Module Detail Modal */}
         {selectedContent && (
           <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[1000] p-4">
             <div className="glass-panel w-full max-w-3xl p-8 rounded-3xl border border-white/10 max-h-[90vh] overflow-y-auto">
@@ -518,7 +508,6 @@ export default function Education() {
           </div>
         )}
 
-        {/* Quiz Modal */}
         {showQuiz && currentQuiz && (
           <QuizModal
             quiz={currentQuiz}

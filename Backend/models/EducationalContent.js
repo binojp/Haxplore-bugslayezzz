@@ -34,7 +34,7 @@ const educationalContentSchema = new mongoose.Schema({
   estimatedTime: { 
     type: Number, 
     default: 5 
-  }, // in minutes
+  },
   imageUrl: { 
     type: String 
   },

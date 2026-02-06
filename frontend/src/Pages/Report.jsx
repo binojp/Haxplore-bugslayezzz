@@ -25,9 +25,8 @@ import {
 } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import "../index.css"; // Ensure styles are loaded
+import "../index.css"; 
 
-// Fix Leaflet marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -35,7 +34,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-// Helper function to convert a file to a base64 string
 const fileToBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -44,7 +42,6 @@ const fileToBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-// Optimized Media Preview
 const MediaPreview = ({ file, onRemove, analysisStatus }) => {
   const [previewUrl, setPreviewUrl] = useState(null);
   const fileType = file.type.split("/")[0];
@@ -65,7 +62,6 @@ const MediaPreview = ({ file, onRemove, analysisStatus }) => {
         <video src={previewUrl} className="w-full h-full object-cover" />
       )}
       
-      {/* Analysis Overlay */}
       {analysisStatus !== "idle" && (
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center transition-opacity">
           {analysisStatus === "analyzing" && (
@@ -94,7 +90,6 @@ const MediaPreview = ({ file, onRemove, analysisStatus }) => {
   );
 };
 
-// File Uploader
 const FileUploader = ({ files, maxFiles, mode, onFilesSelected, onRemove, analysisStatus }) => {
   const fileInputRef = useRef(null);
 
@@ -151,7 +146,6 @@ const FileUploader = ({ files, maxFiles, mode, onFilesSelected, onRemove, analys
   );
 };
 
-// Map Component
 const LocationPicker = ({ setLocation, setLocationName, setLocationError }) => {
   const [position, setPosition] = useState(null);
 
@@ -243,7 +237,6 @@ export default function UploadPage() {
       const file = selected[0];
       const base64Data = await fileToBase64(file);
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      // Using 'gemini-flash-latest' as confirmed by user's model list
       const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
 
       const response = await fetch(apiUrl, {
@@ -277,7 +270,6 @@ export default function UploadPage() {
 
       const result = await response.json();
       
-      // Safe check for candidates
       if (!result.candidates || !result.candidates[0] || !result.candidates[0].content) {
         console.error("Gemini Response:", result);
         throw new Error("did not return a valid analysis (Blocked or Empty).");
@@ -290,7 +282,6 @@ export default function UploadPage() {
         setAnalysisStatus("verified");
         setAiData(parsed);
         
-        // Map AI response to valid backend enum values
         const mapWasteType = (itemType) => {
           const type = itemType.toLowerCase();
           if (type.includes("battery") || type.includes("batteries")) return "battery";
@@ -298,10 +289,9 @@ export default function UploadPage() {
           if (type.includes("laptop") || type.includes("computer")) return "laptop";
           if (type.includes("charger") || type.includes("adapter")) return "charger";
           if (type.includes("cable") || type.includes("wire")) return "cable";
-          return "Other"; // Default to "Other" (capitalized) for unrecognized types
+          return "Other"; 
         };
         
-        // Auto-fill form
         setFormData(prev => ({
           ...prev,
           title: `Recycle: ${parsed.item_type}`,
@@ -317,9 +307,7 @@ export default function UploadPage() {
     } catch (err) {
       console.error("Full  Error Object:", err);
       setAnalysisStatus("invalid");
-      // Display a more specific error if available
       setAnalysisError(` Failed: ${err.message || "Connection Error"}`);
-      // Allow manual entry without clearing everything
       setFormData(prev => ({ ...prev, wasteType: "Electronic" }));
     }
   };
@@ -373,7 +361,6 @@ export default function UploadPage() {
     }
     files.forEach(f => data.append("media", f));
 
-    // Append AI metadata if exists (backend might ignore it for now, but good to send)
     if (aiData) {
       data.append("ai_metadata", JSON.stringify(aiData));
     }
@@ -395,15 +382,13 @@ export default function UploadPage() {
     <div className="min-h-screen theme-bg theme-text pt-20 pb-10 px-4 flex justify-center">
       <div className="w-full max-w-lg">
         
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2">
-            RapidResponse
+            EcoLoop
           </h1>
           <p className="theme-text-muted text-sm">Smart AI-Powered Waste Management</p>
         </div>
 
-        {/* Toggle */}
         <div className="glass-panel p-1 rounded-xl flex mb-8">
           <button
             onClick={() => setMode("report")}
@@ -423,9 +408,7 @@ export default function UploadPage() {
           </button>
         </div>
 
-        {/* Main Card */}
         <div className="glass-panel p-6 rounded-3xl theme-border relative overflow-hidden">
-          {/* Decorative Glow */}
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
           
           <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
@@ -463,7 +446,6 @@ export default function UploadPage() {
               />
             </div>
 
-            {/* Waste Type Selector - Always visible for manual override */}
             {mode === "report" && (
               <div className="space-y-2">
                 <label className="text-sm font-semibold theme-text-muted ml-1">E-Waste Type</label>
@@ -483,7 +465,6 @@ export default function UploadPage() {
               </div>
             )}
 
-            {/* Severity Selector */}
             {mode === "report" && (
               <div className="space-y-2">
                 <label className="text-sm font-semibold theme-text-muted ml-1">Severity</label>

@@ -1,6 +1,6 @@
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Menu, X, Leaf, Award, Map, User, LogOut, Sun, Moon, Brain } from "lucide-react";
+import { Menu, X, Award, Map, User, LogOut, Sun, Moon, Brain, Leaf } from "lucide-react";
 import { useTheme } from "./context/ThemeContext";
 import "./index.css";
 
@@ -96,17 +96,17 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
-          {/* Logo */}
           <NavLink to="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg group-hover:shadow-emerald-500/50 transition-all">
-              <Leaf className="text-white fill-white" size={24} />
+              <div className="w-5 h-5 border-2 border-white rounded-full flex items-center justify-center">
+                <div className="w-2 h-2 bg-white rounded-full"></div>
+              </div>
             </div>
             <span className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 tracking-tight group-hover:to-white transition-all">
-              RapidResponse
+              EcoLoop
             </span>
           </NavLink>
 
-          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-2">
             {!isAuthPage && (
               <>
@@ -176,7 +176,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button - Hidden on Auth Pages */}
           {!isAuthPage && (
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -188,7 +187,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Nav */}
       <div
         className={`md:hidden absolute top-20 left-0 right-0 border-b shadow-2xl transition-all duration-300 origin-top max-h-[calc(100vh-5rem)] overflow-y-auto ${
           mobileOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"
