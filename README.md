@@ -1,6 +1,6 @@
 # Smart E-Waste Collection & Disposal Ecosystem 🚀
 
-**EcoCycle** – Make e-waste disposal simple, transparent, rewarding, and actually used.
+**EcoLoop** – Make e-waste disposal simple, transparent, rewarding, and actually used.
 
 ## Table of Contents
 
@@ -125,4 +125,4 @@ This is not just another disposal app.
 It solves behavior + trust + motivation — not only logistics.
 
 People recycle when it feels **clear**, **trustworthy**, and **rewarding**.  
-EcoCycle makes that happen. 🌿
+EcoLoop makes that happen. 🌿
