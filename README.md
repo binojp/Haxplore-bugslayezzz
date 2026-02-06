@@ -1,14 +1,88 @@
 # Smart E-Waste Collection & Disposal Ecosystem 🚀
 
-**Live Website:** https://ecocycle-haxplore.vercel.app  
-**Video Demo:** https://youtu.be/EXAMPLE_LINK_HERE (replace with actual)  
+**Live Website:** https://haxplorebugslayezzz.pages.dev
+**Video Demo:** https://youtu.be/EXAMPLE_LINK_HERE (replace with actual)
 
 **Team Name:** Bugslayezzz  
-**Team Leader:** Bino  J Panicker
+**Team Leader:** Bino J Panicker
+## Screenshots
+
+### Login Page
+Secure user login form  
+<img src="ecoloop/lodgin.png" alt="Login" width="500" />
+
+### Register Page
+New user registration form  
+<img src="ecoloop/regi.png" alt="Register" width="500" />
+
+### User Dashboard
+Credits • Impact score • Rank • Past reports • Quick actions  
+<img src="ecoloop/user dah.png" alt="User Dashboard" width="800" />
+
+### Report E-Waste
+Upload image → AI detection → Type, severity, location  
+<img src="ecoloop/report.png" alt="Report Page" width="800" />
+
+### User Report Details
+Full report: evidence, AI result, status history, after photos  
+<img src="ecoloop/userreport.png" alt="User Report Details" width="800" />
+
+### Heatmap
+City-wide e-waste hotspot visualization  
+<img src="ecoloop/heatmap.png" alt="Heatmap" width="800" />
+
+### Bin Map – Category Selection
+Select e-waste type → View compatible bins  
+<img src="ecoloop/bin loc1.png" alt="Bin Map 1" width="800" />
+
+### Bin Map – Navigation
+Real-time route, distance, ETA to selected bin  
+<img src="ecoloop/bin map 2.png" alt="Bin Map 2" width="800" />
+
+### Leaderboard
+Monthly ranking of top contributors  
+<img src="ecoloop/lead.png" alt="Leaderboard" width="800" />
+
+### Rewards
+Points balance • Redeem gifts • Achievements list  
+<img src="ecoloop/rewa.png" alt="Rewards Page" width="800" />
+
+### Profile
+User details • Credits • Level • Home location setup  
+<img src="ecoloop/profile.png" alt="Profile" width="800" />
+
+### Education
+Learning modules • Quizzes • Daily streak tracker  
+<img src="ecoloop/educat.png" alt="Education Page" width="800" />
+
+### Admin Dashboard
+Live stats • Recent reports • Quick heatmap access  
+<img src="ecoloop/admin dash.png" alt="Admin Dashboard" width="800" />
+
+### Admin Report Details
+Assign worker • Update status • Upload proof photos  
+<img src="ecoloop/admin rep.png" alt="Admin Report Details" width="800" />
+
+### Worker Dashboard
+Assigned reports • Pickups • Task stats  
+<img src="ecoloop/worker dash.png" alt="Worker Dashboard" width="800" />
+
+### Worker Report Details
+Verify evidence • Update status • View details  
+<img src="ecoloop/work rep.png" alt="Worker Report Details" width="800" />
+
+### Worker Routes
+Assigned collections • Bin levels • Distance & time  
+<img src="ecoloop/routes.png" alt="Worker Routes" width="800" />
+
+### Truck Routes
+Optimized truck paths • Fill levels • Fuel-efficient planning  
+<img src="ecoloop/truck routes.png" alt="Truck Routes" width="800" />
 
 ## Quick Start
 
 ### Backend
+
 ```bash
 cd backend
 npm install
@@ -16,13 +90,14 @@ npm start
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-**.env files are not included in the repo**  
+**.env files are not included in the repo**
 
 ## Table of Contents
 
@@ -43,6 +118,7 @@ E-waste grows faster than people can handle responsibly.
 Biggest barriers: confusion, distrust, zero motivation.
 
 People ask:
+
 - Where do I throw this? ❓
 - Is it accepted? ✅
 - Does it matter? 🌱
@@ -52,11 +128,11 @@ Solution → Clear + Trustworthy + Rewarding experience.
 
 ## Core Roles 👥
 
-| Role     | Focus                                      | Main Goal                     |
-|----------|--------------------------------------------|-------------------------------|
-| User     | Discover bins, report, earn, track impact  | Feel good while recycling     |
-| Admin    | Monitor city, assign work, optimize routes | Keep system efficient         |
-| Worker   | Verify, collect, follow routes             | Finish tasks quickly & clearly|
+| Role   | Focus                                      | Main Goal                      |
+| ------ | ------------------------------------------ | ------------------------------ |
+| User   | Discover bins, report, earn, track impact  | Feel good while recycling      |
+| Admin  | Monitor city, assign work, optimize routes | Keep system efficient          |
+| Worker | Verify, collect, follow routes             | Finish tasks quickly & clearly |
 
 ## User Experience 📱
 
@@ -99,6 +175,7 @@ Solution → Clear + Trustworthy + Rewarding experience.
 ## Education & Awareness 📚
 
 Topics:
+
 - Battery disposal ⚡
 - Phone & laptop recycling 📱💻
 - Cables & chargers 🔌
@@ -108,6 +185,7 @@ Topics:
 - Circular economy ♻️
 
 Rewards:
+
 - Module complete → +50
 - Quiz ≥80% → +100
 - Perfect quiz → +150
@@ -135,6 +213,7 @@ Rewards:
 ## Scalability & Future 🚀
 
 Ready for:
+
 - 1000+ bins
 - City-wide rollout
 - Predictive analytics

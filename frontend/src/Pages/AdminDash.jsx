@@ -433,23 +433,6 @@ export default function AdminDash() {
                </div>
             </div>
 
-            {/* Fines */}
-            <div className="glass-panel rounded-2xl p-6 border border-white/10">
-               <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
-                 <DollarSign className="text-red-400" size={20} /> Recent Penalties
-               </h3>
-               <div className="space-y-3">
-                 {fineDetails.slice(0, 4).map((fine) => (
-                   <div key={fine.id} className="p-3 rounded-xl bg-red-500/10 border border-red-500/20">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-xs font-bold text-red-200">{fine.violationType}</span>
-                        <span className="text-sm font-black text-red-400">₹{fine.amount}</span>
-                      </div>
-                      <p className="text-[10px] text-gray-500">{fine.description}</p>
-                   </div>
-                 ))}
-               </div>
-            </div>
 
           </div>
         </div>

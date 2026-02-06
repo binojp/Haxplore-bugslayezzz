@@ -28,7 +28,7 @@ export default function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/heatmap" element={<Heatmap />} />
@@ -37,10 +37,7 @@ export default function App() {
         <Route path="/user/dashboard" element={<UserDash />} />
         <Route path="/admin/dashboard" element={<AdminDash />} />
         <Route path="/add" element={<AddAdmin />} />
-          <Route path="a
-        
-        
-        /admin/report/:id" element={<ReportDetails />} />
+          <Route path="/admin/report/:id" element={<ReportDetails />} />
         <Route path="/worker/report/:id" element={<WorkerReportDetails />} />
         <Route path="/user/report/:id" element={<UserReportDetails />} />
         <Route path="/rewards" element={<RewardsPage />} />
